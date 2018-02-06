@@ -1,4 +1,4 @@
-package com.google.base;
+package com.google.base.entity;
 
 import java.io.Serializable;
 

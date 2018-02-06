@@ -1,6 +1,6 @@
 package com.google.entity.dto;
 
-import com.google.base.BaseDto;
+import com.google.base.entity.BaseDto;
 
 /**
  * Created by wanjiahuan on 2018/2/6.
