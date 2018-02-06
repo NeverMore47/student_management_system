@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="         
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-autowire="byName">
+
+	<bean  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:common.properties</value>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!-- 数据源 -->
+	<import resource="classpath:datasource/datasource.xml"/>
+
+	<!-- 线程池配置 -->
+	<import resource="classpath:spring/spring_thread.xml"/>
+	
+</beans>

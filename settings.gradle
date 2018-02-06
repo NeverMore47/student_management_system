@@ -1,0 +1,4 @@
+rootProject.name = 'student_management_system'
+include 'web'
+include 'service'
+
