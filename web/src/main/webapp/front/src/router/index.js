@@ -71,21 +71,43 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/studentmanage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'index',
+      component: () => import('@/views/studentmanage/index'),
+      meta: { title: '学生管理', icon: 'table' }
+    }]
+  },
+  {
+    path: '/studentmanage',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'edit',
+        name: 'edit',
+        component: () => import('@/views/usermanage/edit'),
+        meta: { title: '添加学生', icon: 'example' }
+      }
+    ]
+  },
   {
     path: '/usermanage',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'UserManage',
+        name: 'index  ',
         component: () => import('@/views/usermanage/index'),
         meta: { title: '用户管理', icon: 'table' }
       }
     ]
   },
   {
-    path: '/usermanageedit',
+    path: '/usermanage',
     component: Layout,
     hidden: true,
     children: [

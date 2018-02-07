@@ -1,27 +1,37 @@
 <template>
   <div class="app-container">
-    <router-link class="el-button el-button--primary" style="margin-bottom: 20px;" to="/usermanage/edit">添加用户</router-link>
+    <router-link class="el-button el-button--primary" style="margin-bottom: 20px;" to="/studentmanage/edit">添加用户</router-link>
 
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column align="center" label='编号' width="95">
+      <el-table-column align="center" label='ID' width="95">
         <template slot-scope="scope">
           {{scope.$index}}
         </template>
       </el-table-column>
-      <el-table-column label="账号">
+      <el-table-column label="Title">
         <template slot-scope="scope">
           {{scope.row.title}}
         </template>
       </el-table-column>
-      
-      <el-table-column class-name="status-col" label="角色名" width="110" align="center">
+      <el-table-column label="Author" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.author}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="Pageviews" width="110" align="center">
+        <template slot-scope="scope">
+          {{scope.row.pageviews}}
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" label="Status" width="110" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="操作" width="200">
+      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
         <template slot-scope="scope">
-          <el-button type="danger" @click="delUserInfo">删除</el-button>
+          <i class="el-icon-time"></i>
+          <span>{{scope.row.display_time}}</span>
         </template>
       </el-table-column>
     </el-table>
@@ -58,10 +68,6 @@ export default {
         this.list = response.data.items
         this.listLoading = false
       })
-    },
-    delUserInfo() {
-      // 删除用户信息
-      console.log('删除')
     }
   }
 }
