@@ -2,7 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.UserMapper">
 
-    <select id="findUserByUserName" resultType="com.google.entity.vo.UserVO">
+    <resultMap id="userVO" type="com.google.entity.vo.UserVO">
+        <id column="ID" property="id"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_ROLE_ID" property="userRoleId"/>
+        <result column="CREATE_AT" property="createAt"/>
+    </resultMap>
+
+    <select id="findUserByUserName" resultMap="userVO">
         SELECT * FROM users WHERE USER_NAME = #{userName}
     </select>
 
