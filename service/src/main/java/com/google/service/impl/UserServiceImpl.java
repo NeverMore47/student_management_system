@@ -6,6 +6,7 @@ import com.google.entity.dto.UserDTO;
 import com.google.entity.vo.UserVO;
 import com.google.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
@@ -13,10 +14,11 @@ import java.util.Objects;
  * Created by wanjiahuan on 2018/2/6.
  * Description
  */
+@Service("userService")
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Override
     public Result login(UserDTO userDTO) {

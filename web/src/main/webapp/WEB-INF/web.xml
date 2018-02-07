@@ -29,13 +29,17 @@
 		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
 
+	<!-- springframework监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
 	<!-- SpringMVC -->
 	<servlet>
 		<servlet-name>mvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/springMVC.xml</param-value>
+			<param-value>classpath:springMVC.xml</param-value>
 		</init-param>
 		<init-param>
 			<param-name>detectAllHandlerExceptionResolvers</param-name>

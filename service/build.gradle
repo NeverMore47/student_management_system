@@ -55,31 +55,21 @@ dependencies {
     compile "com.alibaba:fastjson:1.2.4"
     compile "com.google.code.gson:gson:2.3"
 
-    //start create by TanYuan
     compile "javax.ws.rs:javax.ws.rs-api:$rsVersion"
     compile "org.glassfish.jersey.core:jersey-client:$jerseyVersion"
     compile "org.glassfish.jersey.connectors:jersey-apache-connector:$jerseyVersion"
     compile "com.google.guava:guava:$guavaVersion"
-    //end
-    //start create by wys
+
     compile "javax.mail:mail:1.5.0-b01"
     compile 'org.quartz-scheduler:quartz:2.2.1'
-    //end
-    //start create by gegl
+
     compile "commons-httpclient:commons-httpclient:3.1"
     compile "commons-beanutils:commons-beanutils:1.9.3"
     compile "commons-lang:commons-lang:2.6"
     compile "net.sf.ezmorph:ezmorph:1.0.6"
     compile "net.sf.json-lib:json-lib:2.4:jdk15"
-    // https://mvnrepository.com/artifact/net.sf.json-lib/json-lib
-    //compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4'
 
-    //end
-
-    //start create by Tomcat Wan
     compile "org.aspectj:aspectjrt:1.8.10"
-    //end
-
 
     compile ("org.activiti:activiti-engine:5.17.0"){
         exclude module: 'jcl-over-slf4j'

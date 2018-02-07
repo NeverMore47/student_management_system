@@ -7,14 +7,6 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
 	   default-autowire="byName">
 
-	<bean  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
@@ -44,22 +36,22 @@
 		<property name="filters" value="${jdbc.filters}" />
 	</bean>
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory_student" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="mapperLocations" value="classpath:mapper/*/*.xml" />
+		<property name="mapperLocations" value="classpath:mapper/*.xml" />
 	</bean>
 
 	<bean id="mybatisConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-		<property name="basePackage" value="" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory_student"/>
+		<property name="basePackage" value="com.google.dao" />
 	</bean>
 
 	<!-- 事务配置 -->
-	<bean id="transactionManager"
+	<bean id="transactionManager_student"
 		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManager_student" />
 
 </beans>
