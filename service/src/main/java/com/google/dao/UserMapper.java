@@ -18,7 +18,7 @@ public interface UserMapper {
 
     UserVO findUserByUserName(@Param("userName") String userName);
 
-    void saveUser(@Param("user") UserDTO userDTO);
+    void saveUser(UserDTO userDTO);
 
     int updateUser(@Param("user") UserDTO userDTO);
 

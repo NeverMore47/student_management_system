@@ -14,9 +14,9 @@ public interface UserService {
 
     Result login(UserDTO userDTO);
 
-    boolean createUser(UserDTO userDTO);
+    Result createUser(UserDTO userDTO);
 
-    boolean updateUser(UserDTO userDTO);
+    Result updateUser(UserDTO userDTO);
 
     boolean deleteUser(UserDTO userDTO);
 

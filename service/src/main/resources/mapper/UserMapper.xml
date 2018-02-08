@@ -50,9 +50,9 @@
         CREATE_AT
       )
       VALUES (
-        #{user.userName},
-        #{user.userPwd},
-        #{user.userRoleId},
+        #{userName},
+        #{userPwd},
+        #{userRoleId},
         NOW()
       )
     </insert>
@@ -69,16 +69,13 @@
             <if test="user.userRoleId != null and user.userRoleId != ''">
                 USER_ROLE_ID = #{user.userRoleId},
             </if>
-            <if test="user.isDelete != null and user.isDelete != ''">
-                IS_DELETE = #{user.isDelete},
-            </if>
         </trim>
         where ID = #{user.id}
     </update>
 
     <update id="deleteUser">
         UPDATE users
-          IS_DELETE = #{user.isDelete}
+        SET IS_DELETE = #{user.isDelete}
         where ID = #{user.id}
     </update>
 </mapper>

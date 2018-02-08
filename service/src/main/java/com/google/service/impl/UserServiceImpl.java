@@ -44,15 +44,36 @@ public class UserServiceImpl implements UserService {
 
     @Transactional("transactionManager_student")
     @Override
-    public boolean createUser(UserDTO userDTO) {
-        userMapper.saveUser(userDTO);
-        return userDTO.getId() > 0;
+    public Result createUser(UserDTO userDTO) {
+        Result result = new Result();
+
+        UserVO userVO = userMapper.findUserByUserName(userDTO.getUserName());
+        if (Objects.isNull(userVO)) {
+            userMapper.saveUser(userDTO);
+            if (userDTO.getId() > 0) {
+                result.setSuccess(true);
+            }
+        } else {
+            result.setSuccessAndMessage(false, "用户名已存在");
+        }
+        return result;
     }
 
     @Transactional("transactionManager_student")
     @Override
-    public boolean updateUser(UserDTO userDTO) {
-        return userMapper.updateUser(userDTO) == 1;
+    public Result updateUser(UserDTO userDTO) {
+        Result result = new Result();
+
+        UserVO userVO = userMapper.findUserByUserName(userDTO.getUserName());
+        if (Objects.isNull(userVO)) {
+            int falg = userMapper.updateUser(userDTO);
+            if (falg == 1) {
+                result.setSuccess(true);
+            }
+        } else {
+            result.setSuccessAndMessage(false, "用户名已存在");
+        }
+        return result;
     }
 
     @Transactional("transactionManager_student")

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,13 +52,7 @@ public class UserController {
         Result result = new Result(false);
 
         if (!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(password) && !Objects.isNull(userRoleId)) {
-            userDTO.setUserName(userName);
-            userDTO.setUserPwd(password);
-            userDTO.setUserRoleId(userRoleId);
-
-            if (userService.createUser(userDTO)) {
-                result.setSuccess(true);
-            }
+            return userService.createUser(userDTO);
         } else {
             result.setMessage("参数错误");
         }
@@ -70,22 +63,19 @@ public class UserController {
     @RequestMapping("/updateUser")
     @ResponseBody
     public Result updateUser(UserDTO userDTO) {
+
         String userName = userDTO.getUserName();
         String password = userDTO.getUserPwd();
         Integer userRoleId = userDTO.getUserRoleId();
-        Integer isDelete = userDTO.getIsDelete();
         long userId = userDTO.getId();
 
         Result result = new Result(false);
 
-        if (!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(password)) {
-            userDTO.setUserName(userName);
-            userDTO.setUserPwd(password);
-            userDTO.setUserRoleId(userRoleId);
-            userDTO.setIsDelete(isDelete);
-            userDTO.setId(userId);
-
-            result.setSuccess(userService.updateUser(userDTO));
+        if (!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(password)
+                && !Objects.isNull(userRoleId) && userId != 0) {
+            return userService.updateUser(userDTO);
+        } else {
+            result.setMessage("参数错误");
         }
 
         return result;
@@ -93,30 +83,32 @@ public class UserController {
 
     @RequestMapping("/deleteUser")
     @ResponseBody
-    public boolean deleteUser(HttpServletRequest request) {
-        String isDelete = request.getParameter("isDelete");
-        String userId = request.getParameter("userId");
-        
-        if (!StringUtils.isEmpty(isDelete) && !StringUtils.isEmpty(userId)) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setIsDelete(Integer.valueOf(isDelete));
-            userDTO.setId(Long.valueOf(userId));
-            
-            return userService.deleteUser(userDTO);
+    public Result deleteUser(UserDTO userDTO) {
+        Integer isDelete = userDTO.getIsDelete();
+        long userId = userDTO.getId();
+
+        Result result = new Result(false);
+        if (!Objects.isNull(isDelete) && userId != 0) {
+            result.setSuccess(userService.deleteUser(userDTO));
+        } else {
+            result.setMessage("参数错误");
         }
-        return false;
+        return result;
     }
 
     @RequestMapping("/findUserList")
     @ResponseBody
-    public List<UserVO> findUserVOsByUserDto(UserDTO userDTO) {
-        userDTO.setStart(1);
-        userDTO.setUserName("admin");
+    public Result findUserVOsByUserDto(UserDTO userDTO) {
+
         int count = userService.countUserVOsByUserDto(userDTO);
-        if (count == 0) {
-            return null;
+        Result result = new Result();
+        result.addAttribute("count", count);
+
+        if (count != 0) {
+            List<UserVO> userVOList = userService.findUserVOsByUserDto(userDTO);
+            result.addAttribute("userList", userVOList);
         }
 
-        return userService.findUserVOsByUserDto(userDTO);
+        return result;
     }
 }
