@@ -7,7 +7,9 @@ import com.google.entity.vo.UserVO;
 import com.google.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -38,5 +40,34 @@ public class UserServiceImpl implements UserService {
         }
 
         return result;
+    }
+
+    @Transactional("transactionManager_student")
+    @Override
+    public boolean createUser(UserDTO userDTO) {
+        userMapper.saveUser(userDTO);
+        return userDTO.getId() > 0;
+    }
+
+    @Transactional("transactionManager_student")
+    @Override
+    public boolean updateUser(UserDTO userDTO) {
+        return userMapper.updateUser(userDTO) == 1;
+    }
+
+    @Transactional("transactionManager_student")
+    @Override
+    public boolean deleteUser(UserDTO userDTO) {
+        return userMapper.deleteUser(userDTO) == 1;
+    }
+
+    @Override
+    public int countUserVOsByUserDto(UserDTO userDTO) {
+        return userMapper.countUserVOsByUserDto(userDTO);
+    }
+
+    @Override
+    public List<UserVO> findUserVOsByUserDto(UserDTO userDTO) {
+        return userMapper.findUserVOsByUserDto(userDTO);
     }
 }

@@ -11,6 +11,7 @@ public class UserVO {
     private String userName;
     private String userPwd;
     private Integer userRoleId;
+    private Integer isDelete;
     private Timestamp createAt;
 
     public long getId() {
@@ -43,6 +44,14 @@ public class UserVO {
 
     public void setUserRoleId(Integer userRoleId) {
         this.userRoleId = userRoleId;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 
     public Timestamp getCreateAt() {

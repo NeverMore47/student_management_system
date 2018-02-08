@@ -2,16 +2,83 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.UserMapper">
 
-    <resultMap id="userVO" type="com.google.entity.vo.UserVO">
+    <resultMap id="userVOMap" type="com.google.entity.vo.UserVO">
         <id column="ID" property="id"/>
         <result column="USER_NAME" property="userName"/>
         <result column="USER_PWD" property="userPwd"/>
         <result column="USER_ROLE_ID" property="userRoleId"/>
+        <result column="IS_DELETE" property="isDelete"/>
         <result column="CREATE_AT" property="createAt"/>
     </resultMap>
 
-    <select id="findUserByUserName" resultMap="userVO">
+    <select id="countUserVOsByUserDto" resultType="int">
+        SELECT
+        COUNT(*)
+        FROM users
+        WHERE 1=1
+        <if test="isDelete != null and isDelete != '' ">
+            AND IS_DELETE = #{isDelete}
+        </if>
+        <if test="userName != null and userName != '' ">
+            AND USER_NAME LIKE CONCAT('%', #{userName}, '%')
+        </if>
+    </select>
+
+    <select id="findUserVOsByUserDto" resultMap="userVOMap">
+        SELECT
+        *
+        FROM users
+        WHERE 1=1
+        <if test="isDelete != null and isDelete != '' ">
+            AND IS_DELETE = #isDelete}
+        </if>
+        <if test="userName != null and userName != '' ">
+            AND USER_NAME LIKE CONCAT('%', #{userName}, '%')
+        </if>
+        limit #{start}, #{rows}
+    </select>
+
+    <select id="findUserByUserName" resultMap="userVOMap">
         SELECT * FROM users WHERE USER_NAME = #{userName}
     </select>
 
+    <insert id="saveUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.UserDTO">
+      INSERT INTO users (
+        USER_NAME,
+        USER_PWD,
+        USER_ROLE_ID,
+        CREATE_AT
+      )
+      VALUES (
+        #{user.userName},
+        #{user.userPwd},
+        #{user.userRoleId},
+        NOW()
+      )
+    </insert>
+
+    <update id="updateUser">
+        UPDATE users
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user.userName != null and user.userName != ''">
+                USER_NAME = #{user.userName},
+            </if>
+            <if test="user.userPwd != null and user.userPwd != ''">
+                USER_PWD = #{user.userPwd},
+            </if>
+            <if test="user.userRoleId != null and user.userRoleId != ''">
+                USER_ROLE_ID = #{user.userRoleId},
+            </if>
+            <if test="user.isDelete != null and user.isDelete != ''">
+                IS_DELETE = #{user.isDelete},
+            </if>
+        </trim>
+        where ID = #{user.id}
+    </update>
+
+    <update id="deleteUser">
+        UPDATE users
+          IS_DELETE = #{user.isDelete}
+        where ID = #{user.id}
+    </update>
 </mapper>
