@@ -71,21 +71,42 @@ export const constantRouterMap = [
       }
     ]
   },
-
+  {
+    path: '/studentmanage',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: 'index',
+      component: () => import('@/views/studentmanage/index'),
+      meta: { title: '学生管理', icon: 'table' }
+    }]
+  },
+  {
+    path: '/grademange',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/grademange/index'),
+        meta: { title: '成绩管理', icon: 'table' }
+      }
+    ]
+  },
   {
     path: '/usermanage',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'UserManage',
+        name: 'index  ',
         component: () => import('@/views/usermanage/index'),
         meta: { title: '用户管理', icon: 'table' }
       }
     ]
   },
   {
-    path: '/usermanageedit',
+    path: '/usermanage',
     component: Layout,
     hidden: true,
     children: [
