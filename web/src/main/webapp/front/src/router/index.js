@@ -82,15 +82,14 @@ export const constantRouterMap = [
     }]
   },
   {
-    path: '/studentmanage',
+    path: '/grademange',
     component: Layout,
-    hidden: true,
     children: [
       {
-        path: 'edit',
-        name: 'edit',
-        component: () => import('@/views/usermanage/edit'),
-        meta: { title: '添加学生', icon: 'example' }
+        path: 'index',
+        name: 'index',
+        component: () => import('@/views/grademange/index'),
+        meta: { title: '成绩管理', icon: 'table' }
       }
     ]
   },
