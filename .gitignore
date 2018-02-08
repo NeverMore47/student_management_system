@@ -1,0 +1,13 @@
+*.gitignore
+#.[oa]
+*~
+.gradle
+.idea
+out
+build/
+*.iml
+*.ipr
+*.iws
+/workspace.xml
+.DS_Store
+*.DS_Store
