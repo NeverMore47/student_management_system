@@ -2,5 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.UserExtendInfoMapper">
 
+    <resultMap id="userExtendInfoVOMap" type="com.google.entity.vo.UserExtendInfoVO">
+        <id column="ID" property="id"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="USER_REAL_NAME" property="userRealName"/>
+        <result column="USER_PHONE_NUM" property="userPhoneNum"/>
+        <result column="USER_EMAIL" property="userEmail"/>
+    </resultMap>
 
+
+    <select id="findUserExtendInfoByUserId" parameterType="long" resultMap="userExtendInfoVOMap">
+        SELECT * FROM user_extend_info WHERE USER_ID = #{userId}
+    </select>
+
+    <insert id="saveUserExtendInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.UserExtendInfoDTO">
+        INSERT INTO user_extend_info (
+          USER_ID,
+          USER_REAL_NAME,
+          USER_PHONE_NUM,
+          USER_EMAIL
+        ) VALUES (
+          #{userId},
+          #{userRealName},
+          #{userPhoneNum},
+          #{userEmail}
+        )
+    </insert>
+
+    <update id="updateUserExtendInfo" parameterType="com.google.entity.dto.UserExtendInfoDTO">
+        UPDATE user_extend_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userRealName != null">
+                USER_REAL_NAME = #{userRealName},
+            </if>
+            <if test="userPhoneNum != null">
+                USER_PHONE_NUM = #{userPhoneNum},
+            </if>
+            <if test="userEmail != null">
+                USER_EMAIL = #{userEmail},
+            </if>
+        </trim>
+        where ID = #{id}
+    </update>
 </mapper>
