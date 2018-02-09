@@ -15,4 +15,10 @@ public interface StudentInfoMapper {
     int countStudentInfoListByDto(@Param("infoDto")StudentInfoDTO infoDTO);
 
     List<StudentInfoVO> findStudentInfoListByDto(@Param("infoDto")StudentInfoDTO infoDTO);
+
+    void saveStudentInfo(StudentInfoDTO infoDTO);
+
+    int updateStudentInfo(StudentInfoDTO infoDTO);
+
+    int deleteStudentInfoById(long id);
 }

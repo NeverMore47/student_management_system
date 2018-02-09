@@ -4,9 +4,11 @@ import com.google.base.entity.Result;
 import com.google.entity.dto.StudentInfoDTO;
 import com.google.entity.vo.StudentInfoVO;
 import com.google.service.StudentInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -38,4 +40,41 @@ public class StudentInfoController {
         return result;
     }
 
+    @RequestMapping("/saveStudentInfo")
+    @ResponseBody
+    public Result saveStudentInfo(StudentInfoDTO infoDTO, @RequestParam(value = "type", defaultValue = "0") int type) {
+        Result result = new Result();
+
+        String studentNo = infoDTO.getStudentNo();
+        String studentRealName = infoDTO.getStudentRealName();
+
+        if (!StringUtils.isEmpty(studentNo) && !StringUtils.isEmpty(studentRealName) && type != 0) {
+            if (type == 1) {
+                result.setSuccess(studentInfoService.saveStudentInfo(infoDTO));
+            } else if (type == 2) {
+                result.setSuccess(studentInfoService.updateStudentInfo(infoDTO));
+            } else {
+                result.setSuccessAndMessage(false, "参数错误");
+            }
+
+        } else {
+            result.setSuccessAndMessage(false, "参数错误");
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/deleteStudentInfo")
+    @ResponseBody
+    public Result deleteStudentInfo(@RequestParam(value = "id", defaultValue = "0") long id) {
+        Result result = new Result();
+
+        if (id != 0) {
+            result.setSuccess(studentInfoService.deleteStudentInfoById(id));
+        } else {
+            result.setSuccessAndMessage(false, "参数错误");
+        }
+
+        return result;
+    }
 }

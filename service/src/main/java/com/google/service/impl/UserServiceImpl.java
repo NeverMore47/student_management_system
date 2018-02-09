@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
         Result result = new Result();
 
         UserVO userVO = userMapper.findUserByUserName(userDTO.getUserName());
-        if (Objects.isNull(userVO)) {
+        if (Objects.isNull(userVO) || Objects.equals(userVO.getUserName(), userDTO.getUserName())) {
             int falg = userMapper.updateUser(userDTO);
             if (falg == 1) {
                 result.setSuccess(true);

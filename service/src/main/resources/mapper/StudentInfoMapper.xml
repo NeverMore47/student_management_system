@@ -18,7 +18,7 @@
 
     <select id="countStudentInfoListByDto" resultType="int">
         SELECT
-        COUNT (*)
+        COUNT(*)
         FROM student_info
         WHERE 1=1
         <if test="infoDto.studentNo != null and infoDto.studentNo != ''">
@@ -48,4 +48,64 @@
         </if>
         limit #{infoDto.start}, #{infoDto.rows}
     </select>
+
+    <insert id="saveStudentInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.StudentInfoDTO">
+        INSERT INTO student_info (
+            STUDENT_NO,
+            STUDENT_REAL_NAME,
+            STUDENT_GENDER,
+            STUDENT_BIRTH_DATE,
+            STUDENT_NATIVE_PLACE,
+            STUDENT_PLACE_GO_TO,
+            STUDENT_HEALTH_STATUS,
+            STUDENT_CLASS_ID
+        ) VALUES (
+            #{studentNo},
+            #{studentRealName},
+            #{studentGender},
+            #{studentBirthDate},
+            #{studentNativePlace},
+            #{studentPlaceGoTo},
+            #{studentHealthStatus},
+            #{studentClassId}
+        )
+    </insert>
+
+    <update id="updateStudentInfo">
+        UPDATE student_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                USER_ID = #{userId}
+            </if>
+            <if test="studentNo != null and studentNo != ''">
+                STUDENT_NO = #{studentNo}
+            </if>
+            <if test="studentRealName != null and studentRealName != ''">
+                STUDENT_REAL_NAME = #{studentRealName}
+            </if>
+            <if test="studentGender != null and studentGender != ''">
+                STUDENT_GENDER = #{studentGender}
+            </if>
+            <if test="studentBirthDate != null and studentBirthDate != ''">
+                STUDENT_BIRTH_DATE = #{studentBirthDate}
+            </if>
+            <if test="studentNativePlace != null and studentNativePlace != ''">
+                STUDENT_NATIVE_PLACE = #{studentNativePlace}
+            </if>
+            <if test="studentPlaceGoTo != null and studentPlaceGoTo != ''">
+                STUDENT_PLACE_GO_TO = #{studentPlaceGoTo}
+            </if>
+            <if test="studentHealthStatus != null and studentHealthStatus != ''">
+                STUDENT_HEALTH_STATUS = #{studentHealthStatus}
+            </if>
+            <if test="studentClassId != null and studentClassId != ''">
+                STUDENT_CLASS_ID = #{studentClassId}
+            </if>
+        </trim>
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteStudentInfoById" parameterType="int">
+        DELETE FROM student_info WHERE id = #{id}
+    </delete>
 </mapper>

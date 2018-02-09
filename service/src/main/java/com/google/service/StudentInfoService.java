@@ -14,4 +14,10 @@ public interface StudentInfoService {
     int countStudentInfoListByDto(StudentInfoDTO infoDTO);
 
     List<StudentInfoVO> findStudentInfoListByDto(StudentInfoDTO infoDTO);
+
+    boolean saveStudentInfo(StudentInfoDTO infoDTO);
+
+    boolean updateStudentInfo(StudentInfoDTO infoDTO);
+
+    boolean deleteStudentInfoById(long id);
 }
