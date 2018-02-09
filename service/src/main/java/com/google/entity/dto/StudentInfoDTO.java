@@ -11,6 +11,7 @@ import java.util.Date;
 public class StudentInfoDTO extends BaseDto {
     private long id;
     private long userId;
+    private String studentNo;
     private String studentRealName;
     private Integer studentGender;
     private Date studentBirthDate;
@@ -33,6 +34,14 @@ public class StudentInfoDTO extends BaseDto {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 
     public String getStudentRealName() {

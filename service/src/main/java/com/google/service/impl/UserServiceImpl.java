@@ -52,6 +52,8 @@ public class UserServiceImpl implements UserService {
             userMapper.saveUser(userDTO);
             if (userDTO.getId() > 0) {
                 result.setSuccess(true);
+            } else {
+                result.setSuccessAndMessage(false, "新增用户失败");
             }
         } else {
             result.setSuccessAndMessage(false, "用户名已存在");
@@ -69,6 +71,8 @@ public class UserServiceImpl implements UserService {
             int falg = userMapper.updateUser(userDTO);
             if (falg == 1) {
                 result.setSuccess(true);
+            } else {
+                result.setSuccessAndMessage(false, "更新用户失败");
             }
         } else {
             result.setSuccessAndMessage(false, "用户名已存在");

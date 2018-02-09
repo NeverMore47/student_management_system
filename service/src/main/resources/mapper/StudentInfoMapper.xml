@@ -2,5 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.StudentInfoMapper">
 
+    <resultMap id="studentInfoVoMap" type="com.google.entity.vo.StudentInfoVO">
+        <id column="ID" property="id"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="STUDENT_NO" property="studentNo"/>
+        <result column="STUDENT_REAL_NAME" property="studentRealName"/>
+        <result column="STUDENT_GENDER" property="studentGender"/>
+        <result column="STUDENT_BIRTH_DATE" property="studentBirthDate"/>
+        <result column="STUDENT_NATIVE_PLACE" property="studentNativePlace"/>
+        <result column="STUDENT_PLACE_GO_TO" property="studentPlaceGoTo"/>
+        <result column="STUDENT_HEALTH_STATUS" property="studentHealthStatus"/>
+        <result column="STUDENT_CLASS_ID" property="studentClassId"/>
+    </resultMap>
 
+
+    <select id="countStudentInfoListByDto" resultType="int">
+        SELECT
+        COUNT (*)
+        FROM student_info
+        WHERE 1=1
+        <if test="infoDto.studentNo != null and infoDto.studentNo != ''">
+            AND STUDENT_NO = #{infoDto.studentNo}
+        </if>
+        <if test="infoDto.studentRealName != null and infoDto.studentRealName != ''">
+            AND STUDENT_REAL_NAME = #{infoDto.studentRealName}
+        </if>
+        <if test="infoDto.studentClassId != null and infoDto.studentClassId != ''">
+            AND STUDENT_CLASS_ID = #{infoDto.studentClassId}
+        </if>
+    </select>
+
+    <select id="findStudentInfoListByDto" resultMap="studentInfoVoMap">
+        SELECT
+          *
+        FROM student_info
+        WHERE 1=1
+        <if test="infoDto.studentNo != null and infoDto.studentNo != ''">
+            AND STUDENT_NO = #{infoDto.studentNo}
+        </if>
+        <if test="infoDto.studentRealName != null and infoDto.studentRealName != ''">
+            AND STUDENT_REAL_NAME = #{infoDto.studentRealName}
+        </if>
+        <if test="infoDto.studentClassId != null and infoDto.studentClassId != ''">
+            AND STUDENT_CLASS_ID = #{infoDto.studentClassId}
+        </if>
+        limit #{infoDto.start}, #{infoDto.rows}
+    </select>
 </mapper>
