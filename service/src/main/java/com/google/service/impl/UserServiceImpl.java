@@ -1,8 +1,10 @@
 package com.google.service.impl;
 
 import com.google.base.entity.Result;
+import com.google.dao.UserExtendInfoMapper;
 import com.google.dao.UserMapper;
 import com.google.entity.dto.UserDTO;
+import com.google.entity.dto.UserExtendInfoDTO;
 import com.google.entity.vo.UserVO;
 import com.google.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserExtendInfoMapper userExtendInfoMapper;
 
     @Override
     public Result login(UserDTO userDTO) {
@@ -51,6 +56,11 @@ public class UserServiceImpl implements UserService {
         if (Objects.isNull(userVO)) {
             userMapper.saveUser(userDTO);
             if (userDTO.getId() > 0) {
+                // 将userId存入userExtendInfo表中
+                UserExtendInfoDTO userExtendInfoDTO = new UserExtendInfoDTO();
+                userExtendInfoDTO.setUserId(userDTO.getId());
+
+                userExtendInfoMapper.saveUserExtendInfo(userExtendInfoDTO);
                 result.setSuccess(true);
             } else {
                 result.setSuccessAndMessage(false, "新增用户失败");
