@@ -91,4 +91,9 @@ public class UserServiceImpl implements UserService {
     public List<UserVO> findUserVOsByUserDto(UserDTO userDTO) {
         return userMapper.findUserVOsByUserDto(userDTO);
     }
+
+    @Override
+    public UserVO findUserById(long userId) {
+        return userMapper.findUserById(userId);
+    }
 }

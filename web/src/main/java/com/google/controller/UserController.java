@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -35,6 +36,28 @@ public class UserController {
         Result result = new Result();
         if (!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(password)) {
             result = userService.login(userDTO);
+        } else {
+            result.setSuccessAndMessage(false, "参数错误");
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/getUserBaseInfo")
+    @ResponseBody
+    public Result getUserBaseInfo(@RequestParam(value = "userId", defaultValue = "0") long userId) {
+        Result result = new Result();
+
+        if (userId != 0) {
+            UserVO userVO = userService.findUserById(userId);
+
+            if (Objects.isNull(userVO)) {
+                result.setSuccessAndMessage(false, "找不到信息");
+            } else {
+                result.setSuccess(true);
+                result.addAttribute("userInfo", userVO);
+            }
+
         } else {
             result.setSuccessAndMessage(false, "参数错误");
         }

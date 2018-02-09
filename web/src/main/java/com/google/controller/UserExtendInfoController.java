@@ -7,6 +7,7 @@ import com.google.service.UserExtendInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Objects;
@@ -25,7 +26,7 @@ public class UserExtendInfoController {
 
     @RequestMapping("/findUserExtendInfo")
     @ResponseBody
-    public Result findUserExtendInfoByUserId(long userId) {
+    public Result findUserExtendInfoByUserId(@RequestParam(value = "userId", defaultValue = "0") long userId) {
         Result result = new Result();
 
         if (userId != 0) {
@@ -40,7 +41,7 @@ public class UserExtendInfoController {
 
     @RequestMapping("/saveUserExtendInfo")
     @ResponseBody
-    public Result saveUserExtendInfo(UserExtendInfoDTO infoDTO, int type) {
+    public Result saveUserExtendInfo(UserExtendInfoDTO infoDTO, @RequestParam(value = "type", defaultValue = "0") int type) {
 
         Result result = new Result();
 
