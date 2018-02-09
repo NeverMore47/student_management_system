@@ -13,6 +13,11 @@
             首页
           </el-dropdown-item>
         </router-link>
+        <router-link class="inlineBlock" to="/userinfo/index">
+          <el-dropdown-item>
+            个人信息
+          </el-dropdown-item>
+        </router-link>
         <el-dropdown-item divided>
           <span @click="logout" style="display:block;">退出</span>
         </el-dropdown-item>

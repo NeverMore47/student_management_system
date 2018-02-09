@@ -37,46 +37,46 @@ export const constantRouterMap = [
     }]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: '测试', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: '表格', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '树', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: '测试', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: '表格', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: '树', icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: '表单', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: '表单', icon: 'form' }
+  //     }
+  //   ]
+  // },
   {
     path: '/studentmanage',
     component: Layout,
     children: [{
       path: 'index',
-      name: 'index',
+      name: 'studentmanage',
       component: () => import('@/views/studentmanage/index'),
       meta: { title: '学生管理', icon: 'table' }
     }]
@@ -87,9 +87,21 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'index',
+        name: 'grademange',
         component: () => import('@/views/grademange/index'),
         meta: { title: '成绩管理', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/disciplinary',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'disciplinary',
+        component: () => import('@/views/disciplinary/index'),
+        meta: { title: '奖惩记录', icon: 'table' }
       }
     ]
   },
@@ -99,26 +111,23 @@ export const constantRouterMap = [
     children: [
       {
         path: 'index',
-        name: 'index  ',
+        name: 'usermanage  ',
         component: () => import('@/views/usermanage/index'),
         meta: { title: '用户管理', icon: 'table' }
       }
     ]
   },
   {
-    path: '/usermanage',
+    path: '/userinfo',
     component: Layout,
     hidden: true,
-    children: [
-      {
-        path: 'edit',
-        name: 'edit',
-        component: () => import('@/views/usermanage/edit'),
-        meta: { title: '添加用户', icon: 'example' }
-      }
-    ]
+    children: [{
+      path: 'index',
+      name: 'userinfo',
+      component: () => import('@/views/userinfo/index'),
+      meta: { title: '个人信息', icon: 'table' }
+    }]
   },
-
   { path: '*', redirect: '/404', hidden: true }
 ]
 

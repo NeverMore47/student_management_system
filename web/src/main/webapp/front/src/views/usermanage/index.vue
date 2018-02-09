@@ -1,57 +1,57 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.title">
+      <el-input style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.userName">
       </el-input>
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">查询</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加用户</el-button>
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label='编号' width="95">
         <template slot-scope="scope">
-          {{scope.$index}}
+          {{scope.$index + 1}}
         </template>
       </el-table-column>
       <el-table-column label="账号">
         <template slot-scope="scope">
-          {{scope.row.title}}
+          {{scope.row.userName}}
         </template>
       </el-table-column>
       
-      <el-table-column class-name="status-col" label="角色名" width="110" align="center">
+      <el-table-column class-name="status-col" label="角色名" width="300" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.userRoleId | statusFilter">{{scope.row.userRoleId | roleFilter }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="操作" width="200">
+      <el-table-column align="center" prop="created_at" label="操作" width="300">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">冻结</el-button>
+          <el-button size="mini" v-if="scope.row.isDelete === 1" type="danger" @click="handleModifyStatus(scope.row,'freeze')">冻结</el-button>
+          <el-button size="mini" v-else type="default" @click="handleModifyStatus(scope.row,'unfreeze')">解冻</el-button>
         </template>
       </el-table-column>
     </el-table>
 
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.start"
+        :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="temp.name"></el-input>
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="temp.userName"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="temp.password"></el-input>
+        <el-form-item label="密码" prop="userPwd">
+          <el-input v-model="temp.userPwd"></el-input>
         </el-form-item>
         <el-form-item label="角色类型">
-          <el-select v-model="temp.region" placeholder="所在系" style="width: 49%;">
-            <el-option label="管理员" value="1"></el-option>
-            <el-option label="老师" value="2"></el-option>
-            <el-option label="助教" value="3"></el-option>
+          <el-select v-model="temp.userRoleId" placeholder="角色类型" style="width: 49%;">
+            <el-option label="管理员" value="管理员"></el-option>
+            <el-option label="老师" value="老师"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -75,21 +75,18 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+import { getUserList, addUser, delUser, updateUser } from '@/api/usermanage'
 
 export default {
   data() {
     return {
       list: null,
-      total: 100,
+      total: 20,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        start: 1,
+        rows: 20,
+        userName: undefined
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -99,15 +96,15 @@ export default {
       },
       temp: {
         id: undefined,
-        name: '',
-        password: '',
-        region: '1'
+        userName: '',
+        userPwd: '',
+        userRoleId: '管理员'
       },
       dialogPvVisible: false,
       pvData: [],
       rules: {
-        password: [{ required: true, message: '密码不能为空', trigger: 'change' }],
-        name: [{ required: true, message: '用户名不能为空', trigger: 'change' }]
+        userPwd: [{ required: true, message: '密码不能为空', trigger: 'change' }],
+        userName: [{ required: true, message: '用户名不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -115,11 +112,21 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
+        1: 'success',
+        2: 'gray',
+        3: 'danger',
+        4: 'warn'
       }
       return statusMap[status]
+    },
+    roleFilter(role) {
+      const roleMap = {
+        1: '管理员',
+        2: '老师',
+        3: '学生',
+        4: '校医'
+      }
+      return roleMap[role]
     }
   },
   created() {
@@ -128,10 +135,29 @@ export default {
   methods: {
     fetchData() {
       this.listLoading = true
-      getList(this.listQuery).then(response => {
-        this.list = response.data.items
+      getUserList(this.listQuery).then(response => {
+        this.list = response.data.userList
+        this.total = response.data.count
         this.listLoading = false
       })
+    },
+    checkRole(role) {
+      const roleMap = {
+        '管理员': 1,
+        '老师': 2,
+        '学生': 3,
+        '校医': 4
+      }
+      return roleMap[role]
+    },
+    checkRole1(role) {
+      const roleMap = {
+        1: '管理员',
+        2: '老师',
+        3: '学生',
+        4: '校医'
+      }
+      return roleMap[role]
     },
     handleCurrentChange(val) {
       if (this.listQuery.page === val) {
@@ -141,23 +167,23 @@ export default {
       this.fetchData()
     },
     handleSizeChange(val) {
-      if (this.listQuery.limit === val) {
+      if (this.listQuery.rows === val) {
         return
       }
-      this.listQuery.limit = val
+      this.listQuery.rows = val
       this.fetchData()
     },
     resetTemp() {
       this.temp = {
         id: undefined,
-        name: '',
-        password: '',
-        region: '1'
+        userName: '',
+        userPwd: '',
+        userRoleId: '管理员'
       }
     },
     handleFilter() {
-      this.listQuery.page = 1
-      this.getList()
+      this.listQuery.start = 1
+      this.fetchData()
     },
     handleCreate() {
       this.resetTemp()
@@ -170,24 +196,43 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
-          // createArticle(this.temp).then(() => {
-          //   this.list.unshift(this.temp)
-          //   this.dialogFormVisible = false
-          //   this.$notify({
-          //     title: '成功',
-          //     message: '创建成功',
-          //     type: 'success',
-          //     duration: 2000
-          //   })
-          // })
+          const tempData = Object.assign({}, this.temp)
+          const tempRoleId = tempData.userRoleId = this.checkRole(tempData.userRoleId)
+          addUser(tempData).then(response => {
+            this.dialogFormVisible = false
+            if (!response.success) {
+              this.$notify({
+                title: '失败',
+                message: response.message,
+                type: 'error',
+                duration: 2000
+              })
+              return
+            }
+            this.temp.userRoleId = tempRoleId
+            this.list.unshift(this.temp)
+            this.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000
+            })
+
+            this.fetchData()
+          })
         }
       })
     },
     handleUpdate(row) {
-      this.temp = Object.assign({}, row) // copy obj
-      this.temp.timestamp = new Date(this.temp.timestamp)
+      const tempRow = {
+        id: row.id,
+        isDelete: row.isDelete,
+        userName: row.userName,
+        userPwd: row.userPwd,
+        userRoleId: row.userRoleId
+      }
+      this.temp = Object.assign({}, tempRow) // copy obj
+      this.temp.userRoleId = this.checkRole1(this.temp.userRoleId)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -198,24 +243,78 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          // updateArticle(tempData).then(() => {
-          //   for (const v of this.list) {
-          //     if (v.id === this.temp.id) {
-          //       const index = this.list.indexOf(v)
-          //       this.list.splice(index, 1, this.temp)
-          //       break
-          //     }
-          //   }
-          //   this.dialogFormVisible = false
-          //   this.$notify({
-          //     title: '成功',
-          //     message: '更新成功',
-          //     type: 'success',
-          //     duration: 2000
-          //   })
-          // })
+          const tempRoleId = tempData.userRoleId = this.checkRole(tempData.userRoleId)
+          updateUser(tempData).then(response => {
+            this.dialogFormVisible = false
+            if (!response.success) {
+              this.$notify({
+                title: '失败',
+                message: response.message,
+                type: 'error',
+                duration: 2000
+              })
+              return
+            }
+            this.temp.userRoleId = tempRoleId
+            for (const v of this.list) {
+              if(v.id === this.temp.id) {
+                const index = this.list.indexOf(v)
+                this.list.splice(index, 1, this.temp)
+                break
+              }
+            }
+            this.$notify({
+              title: '成功',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
+      })
+    },
+    handleModifyStatus(row, type) {
+      // freeze
+      var isDelete, text
+      if(type === 'freeze') {
+        isDelete = 0
+        text = '冻结'
+      } else if(type === 'unfreeze') {
+        isDelete = 1
+        text = '解冻'
+      }
+      const tempData = {
+        id: row.id,
+        isDelete: isDelete
+      }
+      delUser(tempData).then(response => {
+        console.log(response)
+        if(!response.success) {
+          this.$notify({
+            title: '失败',
+            message: text + '失败',
+            type: 'error',
+            duration: 2000
+          })
+        }
+
+        for(const v of this.list) {
+          if(v.id === tempData.id) {
+            const index = this.list.indexOf(v)
+            // this.list.splice(index, 1, tempData)
+            console.log(index)
+            this.list[index].isDelete = isDelete
+            break
+          }
+        }
+        this.$notify({
+          title: '成功',
+          message: text + '成功',
+          type: 'success',
+          duration: 2000
+        })
+
+
       })
     }
   }

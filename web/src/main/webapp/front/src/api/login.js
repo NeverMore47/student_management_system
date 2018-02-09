@@ -3,14 +3,14 @@ import request from '@/utils/request'
 export function login(params) {
   return request({
     url: '/user/login',
-    method: 'post',
+    method: 'get',
     params
   })
 }
 
 export function getInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/user/getUserBaseInfo',
     method: 'get',
     params: { token }
   })

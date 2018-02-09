@@ -31,8 +31,8 @@ const user = {
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
           const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
+          setToken(data.userInfo.id)
+          commit('SET_TOKEN', data.userInfo.id)
           resolve()
         }).catch(error => {
           reject(error)
@@ -44,10 +44,10 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
-          commit('SET_ROLES', data.roles)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          // const data = response.data
+          commit('SET_ROLES', 'admin')
+          commit('SET_NAME', 'admin')
+          commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
           resolve(response)
         }).catch(error => {
           reject(error)

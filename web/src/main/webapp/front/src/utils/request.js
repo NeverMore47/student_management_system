@@ -5,9 +5,9 @@ import { getToken } from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
   timeout: 15000 // 请求超时时间
 })
+// baseURL: process.env.BASE_API, // api的base_url
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8'
 // request拦截器
 service.interceptors.request.use(config => {
