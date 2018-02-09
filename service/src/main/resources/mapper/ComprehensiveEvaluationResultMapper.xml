@@ -2,5 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.ComprehensiveEvaluationResultsMapper">
 
+    <resultMap id="comprehensiveEvaluationResultMap" type="com.google.entity.vo.ComprehensiveEvaluationResultVO">
+        <id column="ID" property="id"/>
+        <result column="COURSE_ID" property="courseId"/>
+        <result column="STUDENT_ID" property="studentId"/>
+        <result column="RESULT_SCORE" property="resultScore"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_AT" property="updateAt"/>
+    </resultMap>
 
+    <select id="countComprehensiveEvaluationResultByDto" resultType="int" >
+        SELECT
+          COUNT(*)
+        FROM comprehensive_evaluation_results
+        WHERE 1=1
+        <if test="courseId != null and courseId != ''">
+            AND COURSE_ID = #{courseId}
+        </if>
+        <if test="studentId != null and studentId != ''">
+            AND STUDENT_ID = #{studentId}
+        </if>
+    </select>
+
+    <select id="findComprehensiveEvaluationResultByDto" resultMap="comprehensiveEvaluationResultMap">
+        SELECT
+            *
+        FROM comprehensive_evaluation_results
+        WHERE 1=1
+        <if test="courseId != null and courseId != ''">
+            AND COURSE_ID = #{courseId}
+        </if>
+        <if test="studentId != null and studentId != ''">
+            AND STUDENT_ID = #{studentId}
+        </if>
+        limit #{start}, #{rows}
+    </select>
+
+    <insert id="saveResult" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.ComprehensiveEvaluationResultDTO">
+      INSERT INTO comprehensive_evaluation_results(
+        COURSE_ID
+        STUDENT_ID
+        RESULT_SCORE
+        UPDATE_BY
+        UPDATE_AT
+      ) VALUES (
+        #{courseId},
+        #{studentId},
+        #{resultScore},
+        #{updateBy},
+        NOW()
+      )
+    </insert>
+
+    <update id="updateResult">
+        UPDATE FROM comprehensive_evaluation_results
+        <if test="resultScore != null and resultScore != ''">
+            SET RESULT_SCORE = #{resultScore}
+        </if>
+        WHERE STUDENT_ID = #{studentId}
+        AND COURSE_ID = #{courseId}
+    </update>
 </mapper>

@@ -23,4 +23,6 @@ public interface UserMapper {
     int updateUser(@Param("user") UserDTO userDTO);
 
     int deleteUser(@Param("user") UserDTO userDTO);
+
+    UserVO findUserById(long userId);
 }

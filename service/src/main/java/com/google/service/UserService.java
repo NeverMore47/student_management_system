@@ -23,4 +23,6 @@ public interface UserService {
     int countUserVOsByUserDto(UserDTO userDTO);
 
     List<UserVO> findUserVOsByUserDto(UserDTO userDTO);
+
+    UserVO findUserById(long userId);
 }

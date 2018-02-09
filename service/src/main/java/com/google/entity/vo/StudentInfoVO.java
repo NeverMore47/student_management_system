@@ -9,6 +9,7 @@ import java.util.Date;
 public class StudentInfoVO {
     private long id;
     private long userId;
+    private String studentNo;
     private String studentRealName;
     private Integer studentGender;
     private Date studentBirthDate;
@@ -31,6 +32,14 @@ public class StudentInfoVO {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 
     public String getStudentRealName() {

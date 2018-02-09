@@ -78,4 +78,8 @@
         SET IS_DELETE = #{user.isDelete}
         where ID = #{user.id}
     </update>
+
+    <select id="findUserById" resultMap="userVOMap">
+        SELECT * FROM users WHERE ID = #{userId}
+    </select>
 </mapper>
