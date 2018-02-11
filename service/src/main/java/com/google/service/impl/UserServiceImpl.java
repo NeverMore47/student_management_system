@@ -78,8 +78,8 @@ public class UserServiceImpl implements UserService {
 
         UserVO userVO = userMapper.findUserByUserName(userDTO.getUserName());
         if (Objects.isNull(userVO) || Objects.equals(userVO.getUserName(), userDTO.getUserName())) {
-            int falg = userMapper.updateUser(userDTO);
-            if (falg == 1) {
+            int flag = userMapper.updateUser(userDTO);
+            if (flag == 1) {
                 result.setSuccess(true);
             } else {
                 result.setSuccessAndMessage(false, "更新用户失败");

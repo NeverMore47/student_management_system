@@ -2,5 +2,92 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.google.dao.RewardsAndPunishmentsRecordsMapper">
 
+    <resultMap id="reAndPuVoMap" type="com.google.entity.vo.RewardsAndPunishmentsRecordVO">
+        <id column="ID" property="id"/>
+        <result column="STUDENT_ID" property="studentId"/>
+        <result column="RE_PU_NAME" property="rePuName"/>
+        <result column="RE_PU_DESC" property="rePuDesc"/>
+        <result column="RE_PU_DATE" property="rePuDate"/>
+        <result column="IS_DELETE" property="isDelete"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_AT" property="updateAt"/>
+        <result column="STUDENT_REAL_NAME" property="studentRealName"/>
+        <result column="CLASS_ID" property="classId"/>
+        <result column="DEPARTMENT_ID" property="departmentId"/>
+        <result column="STUDENT_NO" property="studentNo"/>
+    </resultMap>
 
+
+    <select id="countReAndPuListByDto" resultType="int">
+        SELECT
+          COUNT(*)
+        FROM rewards_and_punishments_records rpr
+        LEFT JOIN student_info si ON si.ID = rpr.STUDENT_ID
+        WHERE 1 = 1
+        <if test="rePuName != null and rePuName != ''">
+            AND rpr.RE_PU_NAME = #{rePuName}
+        </if>
+        <if test="studentRealName != null and studentRealName != ''">
+            AND si.STUDENT_REAL_NAME = #{studentRealName}
+        </if>
+        <if test="studentNo != null and studentNo != ''">
+            AND si.STUDENT_NO = #{studentNo}
+        </if>
+    </select>
+
+    <select id="findReAndPuListByDto" resultMap="reAndPuVoMap">
+        SELECT
+            *
+        FROM rewards_and_punishments_records rpr
+        LEFT JOIN student_info si ON si.ID = rpr.STUDENT_ID
+        WHERE 1 = 1
+        <if test="rePuName != null and rePuName != ''">
+            AND rpr.RE_PU_NAME = #{rePuName}
+        </if>
+        <if test="studentRealName != null and studentRealName != ''">
+            AND si.STUDENT_REAL_NAME = #{studentRealName}
+        </if>
+        <if test="studentNo != null and studentNo != ''">
+            AND si.STUDENT_NO = #{studentNo}
+        </if>
+        limit #{start}, #{rows}
+    </select>
+
+    <insert id="saveReAndPuByDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO rewards_and_punishments_records (
+            STUDENT_ID,
+            RE_PU_NAME,
+            RE_PU_DESC,
+            RE_PU_DATE,
+            UPDATE_AT
+        ) VALUES (
+            #{studentId},
+            #{rePuName},
+            #{rePuDesc},
+            #{rePuDate},
+            NOW()
+        )
+    </insert>
+
+    <update id="updateReAndPu">
+        UPDATE rewards_and_punishments_records
+        <trim prefix="set" prefixOverrides=",">
+            <if test="rePuName != null and rePuName != ''">
+                RE_PU_NAME = #{rePuName},
+            </if>
+            <if test="rePuDesc != null and rePuDesc != ''">
+                RE_PU_DESC = #{rePuDesc},
+            </if>
+            <if test="rePuDate != null and rePuDate != ''">
+                RE_PU_DATE = #{rePuDate},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                IS_DELETE = #{isDelete},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                UPDATE_BY = #{updateBy},
+            </if>
+        </trim>
+        WHERE ID = #{id}
+    </update>
 </mapper>

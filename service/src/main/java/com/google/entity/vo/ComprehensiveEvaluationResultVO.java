@@ -13,6 +13,10 @@ public class ComprehensiveEvaluationResultVO {
     private Double resultScore;
     private String updateBy;
     private Timestamp updateAt;
+    private long classId;
+
+    private String studentNo;
+    private String studentRealName;
 
     public long getId() {
         return id;
@@ -60,5 +64,29 @@ public class ComprehensiveEvaluationResultVO {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(long classId) {
+        this.classId = classId;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
+    }
+
+    public String getStudentRealName() {
+        return studentRealName;
+    }
+
+    public void setStudentRealName(String studentRealName) {
+        this.studentRealName = studentRealName;
     }
 }

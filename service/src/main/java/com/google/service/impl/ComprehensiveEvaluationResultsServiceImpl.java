@@ -6,6 +6,9 @@ import com.google.entity.vo.ComprehensiveEvaluationResultVO;
 import com.google.service.ComprehensiveEvaluationResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by wanjiahuan on 2018/2/6.
@@ -18,12 +21,29 @@ public class ComprehensiveEvaluationResultsServiceImpl implements ComprehensiveE
     private ComprehensiveEvaluationResultsMapper resultsMapper;
 
     @Override
-    public int countComprehensiveEvaluationResultByDto(ComprehensiveEvaluationResultDTO resultDTO) {
-        return resultsMapper.countComprehensiveEvaluationResultByDto(resultDTO);
+    public int countComprehensiveEvaluationResultByDto(ComprehensiveEvaluationResultDTO resultDTO, long classId) {
+        return resultsMapper.countComprehensiveEvaluationResultByDto(resultDTO, classId);
     }
 
     @Override
-    public ComprehensiveEvaluationResultVO findComprehensiveEvaluationResultByDto(ComprehensiveEvaluationResultDTO resultDTO) {
-        return resultsMapper.findComprehensiveEvaluationResultByDto(resultDTO);
+    public List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByDto(ComprehensiveEvaluationResultDTO resultDTO, long classId) {
+        return resultsMapper.findComprehensiveEvaluationResultByDto(resultDTO, classId);
+    }
+
+    @Transactional("transactionManager_student")
+    @Override
+    public boolean saveResultBatch(List<ComprehensiveEvaluationResultDTO> resultDTOList) {
+        resultsMapper.saveResultBatch(resultDTOList);
+        return true;
+    }
+
+    @Transactional("transactionManager_student")
+    @Override
+    public boolean updateResult(ComprehensiveEvaluationResultDTO resultDTO) {
+        int flag = resultsMapper.updateResult(resultDTO);
+        if (flag == 1) {
+            return true;
+        }
+        return false;
     }
 }

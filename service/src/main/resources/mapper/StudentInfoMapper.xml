@@ -13,6 +13,7 @@
         <result column="STUDENT_PLACE_GO_TO" property="studentPlaceGoTo"/>
         <result column="STUDENT_HEALTH_STATUS" property="studentHealthStatus"/>
         <result column="STUDENT_CLASS_ID" property="studentClassId"/>
+        <result column="DEPARTMENT_ID" property="departmentId"/>
     </resultMap>
 
     <select id="countStudentInfoListByDto" resultType="int">
@@ -24,7 +25,7 @@
             AND STUDENT_NO = #{infoDto.studentNo}
         </if>
         <if test="infoDto.studentRealName != null and infoDto.studentRealName != ''">
-            AND STUDENT_REAL_NAME = #{infoDto.studentRealName}
+            AND STUDENT_REAL_NAME LIKE CONCAT('%', #{infoDto.studentRealName}, '%')
         </if>
         <if test="infoDto.studentClassId != null and infoDto.studentClassId != ''">
             AND STUDENT_CLASS_ID = #{infoDto.studentClassId}
@@ -33,16 +34,18 @@
 
     <select id="findStudentInfoListByDto" resultMap="studentInfoVoMap">
         SELECT
-          *
-        FROM student_info
+          *, de.ID AS DEPARTMENT_ID
+        FROM student_info si
+        LEFT JOIN classes cla ON cla.ID = si.STUDENT_CLASS_ID
+        LEFT JOIN department de ON de.ID = cla.CLASS_DEPARTMENT_ID
         WHERE 1=1
         <if test="infoDto.studentNo != null and infoDto.studentNo != ''">
             AND STUDENT_NO = #{infoDto.studentNo}
         </if>
         <if test="infoDto.studentRealName != null and infoDto.studentRealName != ''">
-            AND STUDENT_REAL_NAME = #{infoDto.studentRealName}
+            AND STUDENT_REAL_NAME LIKE CONCAT('%', #{infoDto.studentRealName}, '%')
         </if>
-        <if test="infoDto.studentClassId != null and infoDto.studentClassId != ''">
+        <if test="infoDto.studentClassId != null and infoDto.studentClassId != 0">
             AND STUDENT_CLASS_ID = #{infoDto.studentClassId}
         </if>
         limit #{infoDto.start}, #{infoDto.rows}
@@ -74,37 +77,37 @@
         UPDATE student_info
         <trim prefix="set" suffixOverrides=",">
             <if test="userId != null and userId != ''">
-                USER_ID = #{userId}
+                USER_ID = #{userId},
             </if>
             <if test="studentNo != null and studentNo != ''">
-                STUDENT_NO = #{studentNo}
+                STUDENT_NO = #{studentNo},
             </if>
             <if test="studentRealName != null and studentRealName != ''">
-                STUDENT_REAL_NAME = #{studentRealName}
+                STUDENT_REAL_NAME = #{studentRealName},
             </if>
             <if test="studentGender != null and studentGender != ''">
-                STUDENT_GENDER = #{studentGender}
+                STUDENT_GENDER = #{studentGender},
             </if>
             <if test="studentBirthDate != null and studentBirthDate != ''">
-                STUDENT_BIRTH_DATE = #{studentBirthDate}
+                STUDENT_BIRTH_DATE = #{studentBirthDate},
             </if>
             <if test="studentNativePlace != null and studentNativePlace != ''">
-                STUDENT_NATIVE_PLACE = #{studentNativePlace}
+                STUDENT_NATIVE_PLACE = #{studentNativePlace},
             </if>
             <if test="studentPlaceGoTo != null and studentPlaceGoTo != ''">
-                STUDENT_PLACE_GO_TO = #{studentPlaceGoTo}
+                STUDENT_PLACE_GO_TO = #{studentPlaceGoTo},
             </if>
             <if test="studentHealthStatus != null and studentHealthStatus != ''">
-                STUDENT_HEALTH_STATUS = #{studentHealthStatus}
+                STUDENT_HEALTH_STATUS = #{studentHealthStatus},
             </if>
             <if test="studentClassId != null and studentClassId != ''">
-                STUDENT_CLASS_ID = #{studentClassId}
+                STUDENT_CLASS_ID = #{studentClassId},
             </if>
         </trim>
         WHERE ID = #{id}
     </update>
 
-    <delete id="deleteStudentInfoById" parameterType="int">
+    <delete id="deleteStudentInfoById" parameterType="long">
         DELETE FROM student_info WHERE id = #{id}
     </delete>
 </mapper>
