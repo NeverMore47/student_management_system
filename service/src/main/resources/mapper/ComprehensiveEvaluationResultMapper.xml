@@ -49,6 +49,13 @@
         limit #{resultDTO.start}, #{resultDTO.rows}
     </select>
 
+    <select id="findComprehensiveEvaluationResultByStudentId" resultMap="comprehensiveEvaluationResultMap">
+        SELECT
+          *
+        FROM comprehensive_evaluation_results
+        WHERE STUDENT_ID = #{studentId}
+    </select>
+
     <insert id="saveResultBatch" parameterType="com.google.entity.dto.ComprehensiveEvaluationResultDTO">
         INSERT INTO comprehensive_evaluation_results(
             COURSE_ID,

@@ -16,6 +16,8 @@ public interface ComprehensiveEvaluationResultsService {
 
     List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByDto(ComprehensiveEvaluationResultDTO resultDTO, long classId);
 
+    List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByStudentId(Long studentId);
+
     boolean saveResultBatch(List<ComprehensiveEvaluationResultDTO> resultDTOList);
 
     boolean updateResult(ComprehensiveEvaluationResultDTO resultDTO);

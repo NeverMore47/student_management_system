@@ -42,6 +42,6 @@
                 USER_EMAIL = #{userEmail},
             </if>
         </trim>
-        where ID = #{id}
+        where USER_ID = #{userId}
     </update>
 </mapper>

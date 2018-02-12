@@ -51,6 +51,14 @@
         limit #{infoDto.start}, #{infoDto.rows}
     </select>
 
+    <select id="findStudentInfoDetailById" resultMap="studentInfoVoMap">
+        SELECT
+          si.*
+        FROM student_info si
+        LEFT JOIN users u ON si.USER_ID = u.ID
+        WHERE u.ID = #{userId}
+    </select>
+
     <insert id="saveStudentInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.StudentInfoDTO">
         INSERT INTO student_info (
             STUDENT_NO,

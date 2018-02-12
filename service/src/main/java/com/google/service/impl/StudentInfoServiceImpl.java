@@ -2,15 +2,18 @@ package com.google.service.impl;
 
 import com.google.base.util.ImportExcelUtil;
 import com.google.dao.StudentInfoMapper;
+import com.google.dao.UserExtendInfoMapper;
 import com.google.dao.UserMapper;
 import com.google.entity.dto.ComprehensiveEvaluationResultDTO;
 import com.google.entity.dto.StudentInfoDTO;
 import com.google.entity.dto.UserDTO;
+import com.google.entity.dto.UserExtendInfoDTO;
 import com.google.entity.vo.CourseInfoVO;
 import com.google.entity.vo.StudentInfoVO;
 import com.google.service.ComprehensiveEvaluationResultsService;
 import com.google.service.CourseInfoService;
 import com.google.service.StudentInfoService;
+import com.google.service.UserExtendInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,9 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     private UserMapper userMapper;
 
     @Autowired
+    private UserExtendInfoService userExtendInfoService;
+
+    @Autowired
     private ComprehensiveEvaluationResultsService resultsService;
 
     @Autowired
@@ -51,6 +57,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public List<StudentInfoVO> findStudentInfoListByDto(StudentInfoDTO infoDTO) {
         return infoMapper.findStudentInfoListByDto(infoDTO);
+    }
+
+    @Override
+    public StudentInfoVO findStudentInfoDetailByUserId(Long userId) {
+        return infoMapper.findStudentInfoDetailById(userId);
     }
 
     @Transactional("transactionManager_student")
@@ -68,7 +79,13 @@ public class StudentInfoServiceImpl implements StudentInfoService {
             if (userDTO.getId() > 0) {
                 infoDTO.setUserId(userDTO.getId());
                 infoMapper.updateStudentInfo(infoDTO);
+
+                // 初始化用户拓展信息
+                UserExtendInfoDTO userExtendInfoDTO = new UserExtendInfoDTO();
+                userExtendInfoDTO.setUserId(userDTO.getId());
+                userExtendInfoService.saveUserExtendInfo(userExtendInfoDTO);
             }
+
             // 初始化成绩表 begin
             List<ComprehensiveEvaluationResultDTO> resultDTOList = new ArrayList<>();
             // 查询学生所在班级的课程列表

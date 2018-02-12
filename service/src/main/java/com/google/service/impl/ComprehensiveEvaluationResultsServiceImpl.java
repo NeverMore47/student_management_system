@@ -31,6 +31,11 @@ public class ComprehensiveEvaluationResultsServiceImpl implements ComprehensiveE
         return resultsMapper.findComprehensiveEvaluationResultByDto(resultDTO, classId);
     }
 
+    @Override
+    public List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByStudentId(Long studentId) {
+        return resultsMapper.findComprehensiveEvaluationResultByStudentId(studentId);
+    }
+
     @Transactional("transactionManager_student")
     @Override
     public boolean saveResultBatch(List<ComprehensiveEvaluationResultDTO> resultDTOList) {

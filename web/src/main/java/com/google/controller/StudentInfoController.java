@@ -4,6 +4,7 @@ import com.google.base.entity.Result;
 import com.google.base.util.PropertiesLoader;
 import com.google.entity.dto.StudentInfoDTO;
 import com.google.entity.vo.StudentInfoVO;
+import com.google.service.ComprehensiveEvaluationResultsService;
 import com.google.service.StudentInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class StudentInfoController {
 
     @Autowired
     private StudentInfoService studentInfoService;
+
+    @Autowired
+    private ComprehensiveEvaluationResultsService resultsService;
 
     private static final Properties common = PropertiesLoader.loadProperties("common.properties");
 
@@ -68,6 +72,22 @@ public class StudentInfoController {
                 result.setSuccessAndMessage(false, "参数错误");
             }
 
+        } else {
+            result.setSuccessAndMessage(false, "参数错误");
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/findStudentInfoDetail")
+    @ResponseBody
+    public Result findStudentInfoDetail(Long userId) {
+        Result result = new Result();
+
+        if (!Objects.isNull(userId)) {
+            StudentInfoVO studentInfoVO = studentInfoService.findStudentInfoDetailByUserId(userId);
+            result.addAttribute("studentInfo", studentInfoVO);
+            result.addAttribute("resultInfo", resultsService.findComprehensiveEvaluationResultByStudentId(studentInfoVO.getId()));
         } else {
             result.setSuccessAndMessage(false, "参数错误");
         }

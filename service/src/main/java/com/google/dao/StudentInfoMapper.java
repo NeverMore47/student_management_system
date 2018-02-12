@@ -16,6 +16,8 @@ public interface StudentInfoMapper {
 
     List<StudentInfoVO> findStudentInfoListByDto(@Param("infoDto")StudentInfoDTO infoDTO);
 
+    StudentInfoVO findStudentInfoDetailById(Long userId);
+
     void saveStudentInfo(StudentInfoDTO infoDTO);
 
     int updateStudentInfo(StudentInfoDTO infoDTO);

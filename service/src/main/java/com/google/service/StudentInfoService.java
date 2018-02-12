@@ -16,6 +16,8 @@ public interface StudentInfoService {
 
     List<StudentInfoVO> findStudentInfoListByDto(StudentInfoDTO infoDTO);
 
+    StudentInfoVO findStudentInfoDetailByUserId(Long userId);
+
     boolean saveStudentInfo(StudentInfoDTO infoDTO);
 
     boolean updateStudentInfo(StudentInfoDTO infoDTO);

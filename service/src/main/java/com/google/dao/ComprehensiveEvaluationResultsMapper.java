@@ -17,6 +17,8 @@ public interface ComprehensiveEvaluationResultsMapper {
 
     List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByDto(@Param("resultDTO") ComprehensiveEvaluationResultDTO resultDTO, @Param("classId") long classId);
 
+    List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByStudentId(Long studentId);
+
     void saveResultBatch(List<ComprehensiveEvaluationResultDTO> resultDTOList);
 
     int updateResult(ComprehensiveEvaluationResultDTO resultDTO);
