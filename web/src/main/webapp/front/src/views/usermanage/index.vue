@@ -52,6 +52,8 @@
           <el-select v-model="temp.userRoleId" placeholder="角色类型" style="width: 49%;">
             <el-option label="管理员" value="管理员"></el-option>
             <el-option label="老师" value="老师"></el-option>
+            <el-option label="助教" value="助教"></el-option>
+            <el-option label="校医" value="校医"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -60,16 +62,6 @@
         <el-button v-if="dialogStatus=='create'" type="primary" @click="createData">提交</el-button>
         <el-button v-else type="primary" @click="updateData">提交</el-button>
       </div>
-    </el-dialog>
-
-    <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"> </el-table-column>
-        <el-table-column prop="pv" label="Pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">提交</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -100,8 +92,6 @@ export default {
         userPwd: '',
         userRoleId: '管理员'
       },
-      dialogPvVisible: false,
-      pvData: [],
       rules: {
         userPwd: [{ required: true, message: '密码不能为空', trigger: 'change' }],
         userName: [{ required: true, message: '用户名不能为空', trigger: 'change' }]
@@ -124,7 +114,8 @@ export default {
         1: '管理员',
         2: '老师',
         3: '学生',
-        4: '校医'
+        4: '校医',
+        5: '助教'
       }
       return roleMap[role]
     }
@@ -146,7 +137,8 @@ export default {
         '管理员': 1,
         '老师': 2,
         '学生': 3,
-        '校医': 4
+        '校医': 4,
+        '助教': 5
       }
       return roleMap[role]
     },
@@ -155,15 +147,16 @@ export default {
         1: '管理员',
         2: '老师',
         3: '学生',
-        4: '校医'
+        4: '校医',
+        5: '助教'
       }
       return roleMap[role]
     },
     handleCurrentChange(val) {
-      if (this.listQuery.page === val) {
+      if (this.listQuery.start === val) {
         return
       }
-      this.listQuery.page = val
+      this.listQuery.start = val
       this.fetchData()
     },
     handleSizeChange(val) {

@@ -78,7 +78,7 @@ export const constantRouterMap = [
       path: 'index',
       name: 'studentmanage',
       component: () => import('@/views/studentmanage/index'),
-      meta: { title: '学生管理', icon: 'table' }
+      meta: { title: '学生管理', icon: 'table', role: [1, 2, 4, 5] }
     }]
   },
   {
@@ -89,7 +89,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'grademange',
         component: () => import('@/views/grademange/index'),
-        meta: { title: '成绩管理', icon: 'table' }
+        meta: { title: '成绩管理', icon: 'table', role: [1, 2, 4] }
       }
     ]
   },
@@ -101,7 +101,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'disciplinary',
         component: () => import('@/views/disciplinary/index'),
-        meta: { title: '奖惩记录', icon: 'table' }
+        meta: { title: '奖惩记录', icon: 'table', role: [1, 2, 4] }
       }
     ]
   },
@@ -113,7 +113,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'usermanage  ',
         component: () => import('@/views/usermanage/index'),
-        meta: { title: '用户管理', icon: 'table' }
+        meta: { title: '用户管理', icon: 'table', role: [1] }
       }
     ]
   },

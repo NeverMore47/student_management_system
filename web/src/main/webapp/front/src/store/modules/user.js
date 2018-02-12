@@ -43,10 +43,13 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          // const data = response.data
-          commit('SET_ROLES', 'admin')
-          commit('SET_NAME', 'admin')
+        const ids = {
+          userId: state.token
+        }
+        getInfo(ids).then(response => {
+          const data = response.data.userInfo
+          commit('SET_ROLES', data.userRoleId)
+          commit('SET_NAME', data.userName)
           commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
           resolve(response)
         }).catch(error => {
@@ -60,7 +63,7 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
+          commit('SET_ROLES', '')
           removeToken()
           resolve()
         }).catch(error => {

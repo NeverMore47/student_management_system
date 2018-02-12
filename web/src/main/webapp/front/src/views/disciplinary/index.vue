@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-select clearable style="width: 200px" class="filter-item" v-model="importance" placeholder="课程名">
-        <el-option label="操作系统" value="操作系统"></el-option>
-        <el-option label="编译原理" value="编译原理"></el-option>
-        <el-option label="数据结构与算法" value="数据结构与算法"></el-option>
-        <el-option label="人工智能导论" value="人工智能导论"></el-option>
-      </el-select>
+      <el-input style="width: 200px;" class="filter-item" placeholder="学生姓名" v-model="listQuery.studentRealName">
+      </el-input>
+      <el-input style="width: 200px;" class="filter-item" placeholder="学生编号" v-model="listQuery.studentNo">
+      </el-input>
+      <el-input style="width: 200px;" class="filter-item" placeholder="奖惩标题" v-model="listQuery.studentNo">
+      </el-input>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
     </div>
 
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
-      <el-table-column align="center" label='编号' width="120">
+      <el-table-column align="center" label='学号' width="120">
         <template slot-scope="scope">
           {{scope.$index}}
         </template>
@@ -21,50 +21,38 @@
           <span>王小新</span>
         </template>
       </el-table-column>
-      <el-table-column label="性别" width="110" align="center">
+      <el-table-column label="奖惩内容" width="110" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="出生日期" width="250" align="center">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span>{{scope.row.display_time}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="status-col" label="所在班级">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" prop="操作" label="Display_time" width="200">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">冻结</el-button>
+          <el-button size="mini" type="danger" @click="handleModifyStatus(scope.row,'deleted')">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.start"
+        :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改" :visible.sync="dialogFormVisible">
       <el-form :rules="rules" ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="学生名" prop="name">
-          <el-input v-model="temp.name" aria-disabled="true"></el-input>
+        <el-form-item label="学号">
+          <el-input v-model="temp.studentNo" v-bind:disabled="dialogDicDisabled"></el-input>
         </el-form-item>
-        <el-form-item label="课程名">
-          <el-select v-model="temp.department" placeholder="课程" >
-            <el-option label="操作系统" value="操作系统"></el-option>
-            <el-option label="编译原理" value="编译原理"></el-option>
-            <el-option label="数据结构与算法" value="数据结构与算法"></el-option>
-            <el-option label="人工智能导论" value="人工智能导论"></el-option>
-          </el-select>      
+        <el-form-item label="学生名">
+          <el-input v-model="temp.studentRealName" v-bind:disabled="dialogDicDisabled"></el-input>
         </el-form-item>
-        <el-form-item label="分数">
-          <el-input v-model="temp.grade"></el-input>
+        <el-form-item label="奖惩标题" prop="RE_PU_NAME">
+          <el-input v-model="temp.RE_PU_NAME"></el-input>
+        </el-form-item>
+        <el-form-item label="奖惩内容" prop="RE_PU_DESC">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="添加奖惩记录" v-model="temp.RE_PU_DESC">
+          </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -73,21 +61,11 @@
         <el-button v-else type="primary" @click="updateData">提交</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"> </el-table-column>
-        <el-table-column prop="pv" label="Pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">提交</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-// import { getList } from '@/api/table'
+import { findRewardsAndPunishmentList } from '@/api/student'
 
 export default {
   data() {
@@ -100,27 +78,23 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       listQuery: {
-        page: 1,
-        limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        start: 1,
+        rows: 20,
+        studentRealName: undefined,
+        studentNo: undefined,
+        type: undefined
       },
-      textMap: {
-        update: '修改',
-        create: '添加'
-      },
+      dialogDicDisabled: false,
       temp: {
         id: undefined,
-        name: '',
-        department: '操作系统',
-        grade: ''
+        studentNo: undefined,
+        studentRealName: undefined,
+        RE_PU_DESC: undefined,
+        RE_PU_NAME: undefined
       },
-      dialogPvVisible: false,
-      pvData: [],
-      rules: {
-        grade: [{ required: true, message: '分数不能为空', trigger: 'change' }]
+       rules: {
+        RE_PU_DESC: [{ required: true, message: '奖惩记录不能为空', trigger: 'change' }],
+        RE_PU_NAME: [{ required: true, message: '奖惩标题不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }
@@ -136,29 +110,29 @@ export default {
     }
   },
   created() {
-    // this.fetchData()
+    this.fetchData()
   },
   methods: {
-    // fetchData() {
-    //   this.listLoading = true
-    //   getList(this.listQuery).then(response => {
-    //     this.list = response.data.items
-    //     this.listLoading = false
-    //   })
-    // }
+    fetchData() {
+      this.listLoading = true
+      findRewardsAndPunishmentList(this.listQuery).then(response => {
+        this.list = response.data.items
+        this.listLoading = false
+      })
+    },
     handleCurrentChange(val) {
-      // if (this.listQuery.page === val) {
-      //   return
-      // }
-      // this.listQuery.page = val
-      // this.getList()
+      if (this.listQuery.start === val) {
+        return
+      }
+      this.listQuery.start = val
+      this.fetchData()
     },
     handleSizeChange(val) {
-      // if (this.listQuery.limit === val) {
-      //   return
-      // }
-      // this.listQuery.limit = val
-      // this.getList()
+      if (this.listQuery.rows === val) {
+        return
+      }
+      this.listQuery.rows = val
+      this.fetchData()
     },
     resetTemp() {
       this.temp = {
@@ -169,8 +143,8 @@ export default {
       }
     },
     handleFilter() {
-      // this.listQuery.page = 1
-      // this.getList()
+      this.listQuery.start = 1
+      this.fetchData()
     },
     handleCreate() {
       this.resetTemp()
