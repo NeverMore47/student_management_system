@@ -1,6 +1,7 @@
 package com.google.entity.dto;
 
 import com.google.base.entity.BaseDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -11,13 +12,17 @@ import java.util.Date;
  */
 public class RewardsAndPunishmentsRecordDTO extends BaseDto {
     private long id;
-    private long studentId;
-    private String RE_PU_NAME;
-    private String RE_PU_DESC;
-    private Date RE_PU_DATE;
+    private Long studentId;
+    private String rePuName;
+    private String rePuDesc;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date rePuDate;
     private Integer isDelete;
     private String updateBy;
     private Timestamp updateAt;
+
+    private String studentRealName;
+    private String studentNo;
 
     public long getId() {
         return id;
@@ -27,36 +32,36 @@ public class RewardsAndPunishmentsRecordDTO extends BaseDto {
         this.id = id;
     }
 
-    public long getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(long studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
-    public String getRE_PU_NAME() {
-        return RE_PU_NAME;
+    public String getRePuName() {
+        return rePuName;
     }
 
-    public void setRE_PU_NAME(String RE_PU_NAME) {
-        this.RE_PU_NAME = RE_PU_NAME;
+    public void setRePuName(String rePuName) {
+        this.rePuName = rePuName;
     }
 
-    public String getRE_PU_DESC() {
-        return RE_PU_DESC;
+    public String getRePuDesc() {
+        return rePuDesc;
     }
 
-    public void setRE_PU_DESC(String RE_PU_DESC) {
-        this.RE_PU_DESC = RE_PU_DESC;
+    public void setRePuDesc(String rePuDesc) {
+        this.rePuDesc = rePuDesc;
     }
 
-    public Date getRE_PU_DATE() {
-        return RE_PU_DATE;
+    public Date getRePuDate() {
+        return rePuDate;
     }
 
-    public void setRE_PU_DATE(Date RE_PU_DATE) {
-        this.RE_PU_DATE = RE_PU_DATE;
+    public void setRePuDate(Date rePuDate) {
+        this.rePuDate = rePuDate;
     }
 
     public Integer getIsDelete() {
@@ -81,5 +86,21 @@ public class RewardsAndPunishmentsRecordDTO extends BaseDto {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getStudentRealName() {
+        return studentRealName;
+    }
+
+    public void setStudentRealName(String studentRealName) {
+        this.studentRealName = studentRealName;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 }

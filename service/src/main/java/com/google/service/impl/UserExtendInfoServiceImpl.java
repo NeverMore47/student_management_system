@@ -36,8 +36,8 @@ public class UserExtendInfoServiceImpl implements UserExtendInfoService {
     @Transactional("transactionManager_student")
     @Override
     public boolean updateUserExtendInfo(UserExtendInfoDTO infoDTO) {
-        int falg = infoMapper.updateUserExtendInfo(infoDTO);
-        if (falg == 1) {
+        int flag = infoMapper.updateUserExtendInfo(infoDTO);
+        if (flag == 1) {
             return true;
         }
         return false;

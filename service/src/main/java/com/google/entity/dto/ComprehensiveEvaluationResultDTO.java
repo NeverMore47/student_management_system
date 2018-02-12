@@ -9,34 +9,36 @@ import java.sql.Timestamp;
  * Description
  */
 public class ComprehensiveEvaluationResultDTO extends BaseDto {
-    private long id;
-    private long courseId;
-    private long studentId;
+    private Long id;
+    private Long courseId;
+    private Long studentId;
     private Double resultScore;
     private String updateBy;
     private Timestamp updateAt;
 
-    public long getId() {
+    private String studentNo;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getCourseId() {
+    public Long getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(long courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 
-    public long getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(long studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
@@ -62,5 +64,13 @@ public class ComprehensiveEvaluationResultDTO extends BaseDto {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 }

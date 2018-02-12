@@ -1,6 +1,7 @@
 package com.google.entity.dto;
 
 import com.google.base.entity.BaseDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -14,11 +15,12 @@ public class StudentInfoDTO extends BaseDto {
     private String studentNo;
     private String studentRealName;
     private Integer studentGender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date studentBirthDate;
     private String studentNativePlace;
     private String studentPlaceGoTo;
     private String studentHealthStatus;
-    private long studentClassId;
+    private Long studentClassId;
 
     public long getId() {
         return id;
@@ -92,11 +94,11 @@ public class StudentInfoDTO extends BaseDto {
         this.studentHealthStatus = studentHealthStatus;
     }
 
-    public long getStudentClassId() {
+    public Long getStudentClassId() {
         return studentClassId;
     }
 
-    public void setStudentClassId(long studentClassId) {
+    public void setStudentClassId(Long studentClassId) {
         this.studentClassId = studentClassId;
     }
 }

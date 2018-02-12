@@ -9,7 +9,7 @@ public class CourseInfoVO {
     private String courseName;
     private String courseTeacherName;
     private Double courseCredit;
-    private long courseProviderDepartment;
+    private long courseProviderClassId;
 
     public long getId() {
         return id;
@@ -43,11 +43,12 @@ public class CourseInfoVO {
         this.courseCredit = courseCredit;
     }
 
-    public long getCourseProviderDepartment() {
-        return courseProviderDepartment;
+    public long getCourseProviderClassId() {
+        return courseProviderClassId;
     }
 
-    public void setCourseProviderDepartment(long courseProviderDepartment) {
-        this.courseProviderDepartment = courseProviderDepartment;
+    public void setCourseProviderClassId(long courseProviderClassId) {
+        this.courseProviderClassId = courseProviderClassId;
     }
+
 }

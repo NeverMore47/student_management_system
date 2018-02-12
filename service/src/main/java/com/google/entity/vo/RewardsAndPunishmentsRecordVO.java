@@ -10,12 +10,17 @@ import java.util.Date;
 public class RewardsAndPunishmentsRecordVO {
     private long id;
     private long studentId;
-    private String RE_PU_NAME;
-    private String RE_PU_DESC;
-    private Date RE_PU_DATE;
+    private String rePuName;
+    private String rePuDesc;
+    private Date rePuDate;
     private Integer isDelete;
     private String updateBy;
     private Timestamp updateAt;
+
+    private String studentRealName;
+    private Long classId;
+    private Long departmentId;
+    private String studentNo;
 
     public long getId() {
         return id;
@@ -33,28 +38,28 @@ public class RewardsAndPunishmentsRecordVO {
         this.studentId = studentId;
     }
 
-    public String getRE_PU_NAME() {
-        return RE_PU_NAME;
+    public String getRePuName() {
+        return rePuName;
     }
 
-    public void setRE_PU_NAME(String RE_PU_NAME) {
-        this.RE_PU_NAME = RE_PU_NAME;
+    public void setRePuName(String rePuName) {
+        this.rePuName = rePuName;
     }
 
-    public String getRE_PU_DESC() {
-        return RE_PU_DESC;
+    public String getRePuDesc() {
+        return rePuDesc;
     }
 
-    public void setRE_PU_DESC(String RE_PU_DESC) {
-        this.RE_PU_DESC = RE_PU_DESC;
+    public void setRePuDesc(String rePuDesc) {
+        this.rePuDesc = rePuDesc;
     }
 
-    public Date getRE_PU_DATE() {
-        return RE_PU_DATE;
+    public Date getRePuDate() {
+        return rePuDate;
     }
 
-    public void setRE_PU_DATE(Date RE_PU_DATE) {
-        this.RE_PU_DATE = RE_PU_DATE;
+    public void setRePuDate(Date rePuDate) {
+        this.rePuDate = rePuDate;
     }
 
     public Integer getIsDelete() {
@@ -79,5 +84,37 @@ public class RewardsAndPunishmentsRecordVO {
 
     public void setUpdateAt(Timestamp updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public String getStudentRealName() {
+        return studentRealName;
+    }
+
+    public void setStudentRealName(String studentRealName) {
+        this.studentRealName = studentRealName;
+    }
+
+    public Long getClassId() {
+        return classId;
+    }
+
+    public void setClassId(Long classId) {
+        this.classId = classId;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getStudentNo() {
+        return studentNo;
+    }
+
+    public void setStudentNo(String studentNo) {
+        this.studentNo = studentNo;
     }
 }

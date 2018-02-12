@@ -17,6 +17,7 @@ public class StudentInfoVO {
     private String studentPlaceGoTo;
     private String studentHealthStatus;
     private long studentClassId;
+    private long departmentId;
 
     public long getId() {
         return id;
@@ -96,5 +97,13 @@ public class StudentInfoVO {
 
     public void setStudentClassId(long studentClassId) {
         this.studentClassId = studentClassId;
+    }
+
+    public long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(long departmentId) {
+        this.departmentId = departmentId;
     }
 }

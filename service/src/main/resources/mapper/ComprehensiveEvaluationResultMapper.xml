@@ -9,53 +9,67 @@
         <result column="RESULT_SCORE" property="resultScore"/>
         <result column="UPDATE_BY" property="updateBy"/>
         <result column="UPDATE_AT" property="updateAt"/>
+        <result column="CLASS_ID" property="classId"/>
+        <result column="STUDENT_NO" property="studentNo"/>
+        <result column="STUDENT_REAL_NAME" property="studentRealName"/>
     </resultMap>
 
     <select id="countComprehensiveEvaluationResultByDto" resultType="int" >
         SELECT
           COUNT(*)
-        FROM comprehensive_evaluation_results
+        FROM comprehensive_evaluation_results cer
+        LEFT JOIN student_info si ON si.ID = cer.STUDENT_ID
         WHERE 1=1
-        <if test="courseId != null and courseId != ''">
-            AND COURSE_ID = #{courseId}
+        <if test="resultDTO.courseId != null and resultDTO.courseId != 0">
+            AND COURSE_ID = #{resultDTO.courseId}
         </if>
-        <if test="studentId != null and studentId != ''">
-            AND STUDENT_ID = #{studentId}
+        <if test="resultDTO.studentNo != null and resultDTO.studentNo != ''">
+            AND si.STUDENT_NO = #{resultDTO.studentNo}
+        </if>
+        <if test="classId != null and classId != 0">
+            AND si.STUDENT_CLASS_ID = #{classId}
         </if>
     </select>
 
     <select id="findComprehensiveEvaluationResultByDto" resultMap="comprehensiveEvaluationResultMap">
         SELECT
-            *
-        FROM comprehensive_evaluation_results
+            *, si.STUDENT_CLASS_ID AS CLASS_ID, si.STUDENT_NO AS STUDENT_NO, si.STUDENT_REAL_NAME AS STUDENT_REAL_NAME
+        FROM comprehensive_evaluation_results cer
+        LEFT JOIN student_info si ON si.ID = cer.STUDENT_ID
         WHERE 1=1
-        <if test="courseId != null and courseId != ''">
-            AND COURSE_ID = #{courseId}
+        <if test="resultDTO.courseId != null and resultDTO.courseId != 0">
+            AND COURSE_ID = #{resultDTO.courseId}
         </if>
-        <if test="studentId != null and studentId != ''">
-            AND STUDENT_ID = #{studentId}
+        <if test="resultDTO.studentNo != null and resultDTO.studentNo != ''">
+            AND si.STUDENT_NO = #{resultDTO.studentNo}
         </if>
-        limit #{start}, #{rows}
+        <if test="classId != null and classId != 0">
+            AND si.STUDENT_CLASS_ID = #{classId}
+        </if>
+        limit #{resultDTO.start}, #{resultDTO.rows}
     </select>
 
-    <insert id="saveResult" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.ComprehensiveEvaluationResultDTO">
-      INSERT INTO comprehensive_evaluation_results(
-        COURSE_ID
-        STUDENT_ID
-        RESULT_SCORE
-        UPDATE_BY
-        UPDATE_AT
-      ) VALUES (
-        #{courseId},
-        #{studentId},
-        #{resultScore},
-        #{updateBy},
-        NOW()
-      )
+    <insert id="saveResultBatch" parameterType="com.google.entity.dto.ComprehensiveEvaluationResultDTO">
+        INSERT INTO comprehensive_evaluation_results(
+            COURSE_ID,
+            STUDENT_ID,
+            RESULT_SCORE,
+            UPDATE_BY,
+            UPDATE_AT
+        ) VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.courseId},
+            #{item.studentId},
+            #{item.resultScore},
+            #{item.updateBy},
+            NOW()
+            )
+        </foreach>
     </insert>
 
     <update id="updateResult">
-        UPDATE FROM comprehensive_evaluation_results
+        UPDATE comprehensive_evaluation_results
         <if test="resultScore != null and resultScore != ''">
             SET RESULT_SCORE = #{resultScore}
         </if>
