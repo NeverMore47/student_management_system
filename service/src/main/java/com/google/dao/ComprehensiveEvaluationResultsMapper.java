@@ -5,9 +5,10 @@ import com.google.entity.vo.ComprehensiveEvaluationResultVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public interface ComprehensiveEvaluationResultsMapper {
@@ -16,7 +17,11 @@ public interface ComprehensiveEvaluationResultsMapper {
 
     List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByDto(@Param("resultDTO") ComprehensiveEvaluationResultDTO resultDTO, @Param("classId") long classId);
 
+    List<ComprehensiveEvaluationResultVO> findComprehensiveEvaluationResultByStudentId(Long studentId);
+
     void saveResultBatch(List<ComprehensiveEvaluationResultDTO> resultDTOList);
 
     int updateResult(ComprehensiveEvaluationResultDTO resultDTO);
+
+    List<Map<String, Object>> avgResultGroupByCourseId(Long courseId);
 }

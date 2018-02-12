@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 @Service("courseInfoService")

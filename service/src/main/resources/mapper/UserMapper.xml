@@ -30,7 +30,7 @@
         FROM users
         WHERE 1=1
         <if test="isDelete != null and isDelete != '' ">
-            AND IS_DELETE = #isDelete}
+            AND IS_DELETE = #{isDelete}
         </if>
         <if test="userName != null and userName != '' ">
             AND USER_NAME LIKE CONCAT('%', #{userName}, '%')

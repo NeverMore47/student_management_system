@@ -14,7 +14,7 @@ import java.util.Objects;
 
 
 /**
- * Created by wanjiahuan on 2018/2/8.
+ * Created by zengxiangyuan on 2018/2/8.
  * Description
  */
 @Controller
@@ -47,7 +47,7 @@ public class UserExtendInfoController {
 
         if (infoDTO.getUserId() != 0  && Objects.isNull(infoDTO.getId()) && type == 1) {
             result.setSuccess(userExtendInfoService.saveUserExtendInfo(infoDTO));
-        } else if (infoDTO.getUserId() == 0 && !Objects.isNull(infoDTO.getId()) && type == 2) {
+        } else if (infoDTO.getUserId() != 0 && type == 2) {
             result.setSuccess(userExtendInfoService.updateUserExtendInfo(infoDTO));
         } else {
             result.setSuccessAndMessage(false, "参数错误");

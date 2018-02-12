@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public class RewardsAndPunishmentsRecordVO {

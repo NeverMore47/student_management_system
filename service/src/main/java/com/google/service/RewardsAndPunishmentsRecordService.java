@@ -6,7 +6,7 @@ import com.google.entity.vo.RewardsAndPunishmentsRecordVO;
 import java.util.List;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public interface RewardsAndPunishmentsRecordService {

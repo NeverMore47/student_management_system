@@ -49,6 +49,13 @@
         limit #{resultDTO.start}, #{resultDTO.rows}
     </select>
 
+    <select id="findComprehensiveEvaluationResultByStudentId" resultMap="comprehensiveEvaluationResultMap">
+        SELECT
+          *
+        FROM comprehensive_evaluation_results
+        WHERE STUDENT_ID = #{studentId}
+    </select>
+
     <insert id="saveResultBatch" parameterType="com.google.entity.dto.ComprehensiveEvaluationResultDTO">
         INSERT INTO comprehensive_evaluation_results(
             COURSE_ID,
@@ -76,4 +83,18 @@
         WHERE STUDENT_ID = #{studentId}
         AND COURSE_ID = #{courseId}
     </update>
+
+    <select id="avgResultGroupByCourseId" resultType="map">
+        SELECT
+            AVG(RESULT_SCORE) AS avgScore,
+            cer.COURSE_ID AS courseId,
+            si.STUDENT_CLASS_ID AS classId
+        FROM
+            comprehensive_evaluation_results cer
+        LEFT JOIN student_info si ON si.ID = cer.STUDENT_ID
+        WHERE
+        cer.COURSE_ID = #{courseId}
+        GROUP BY si.STUDENT_CLASS_ID, cer.COURSE_ID;
+    </select>
+
 </mapper>

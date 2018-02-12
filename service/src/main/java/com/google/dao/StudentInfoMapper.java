@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public interface StudentInfoMapper {
@@ -15,6 +15,8 @@ public interface StudentInfoMapper {
     int countStudentInfoListByDto(@Param("infoDto")StudentInfoDTO infoDTO);
 
     List<StudentInfoVO> findStudentInfoListByDto(@Param("infoDto")StudentInfoDTO infoDTO);
+
+    StudentInfoVO findStudentInfoDetailById(Long userId);
 
     void saveStudentInfo(StudentInfoDTO infoDTO);
 
