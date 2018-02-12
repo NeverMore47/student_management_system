@@ -53,7 +53,7 @@
       </el-table-column>
     </el-table>
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.start"
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
         :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -100,7 +100,7 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       listQuery: {
-        start: 1,
+        page: 1,
         rows: 20,
         classId: '1',
         courseId: '',
@@ -157,18 +157,15 @@ export default {
       })
     },
     handleCurrentChange(val) {
-      if (this.listQuery.start === val) {
-        return
-      }
-      this.listQuery.start = val
-      this.getList()
+      this.listQuery.page = val
+      this.fetchData()
     },
     handleSizeChange(val) {
       if (this.listQuery.rows === val) {
         return
       }
       this.listQuery.rows = val
-      this.getList()
+      this.fetchData()
     },
     resetTemp() {
       this.temp = {
@@ -179,7 +176,7 @@ export default {
       }
     },
     handleFilter() {
-      this.listQuery.start = 1
+      this.listQuery.page = 1
       this.fetchData()
     },
     courseF(courseid, type) {

@@ -37,40 +37,6 @@ export const constantRouterMap = [
     }]
   },
 
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: '测试', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: '表格', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: '树', icon: 'tree' }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: '表单', icon: 'form' }
-  //     }
-  //   ]
-  // },
   {
     path: '/studentmanage',
     component: Layout,
@@ -114,6 +80,30 @@ export const constantRouterMap = [
         name: 'usermanage  ',
         component: () => import('@/views/usermanage/index'),
         meta: { title: '用户管理', icon: 'table', role: [1] }
+      }
+    ]
+  },
+  {
+    path: '/chat',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'chat  ',
+        component: () => import('@/views/chat/index'),
+        meta: { title: '生成图表', icon: 'table', role: [1, 2, 4] }
+      }
+    ]
+  },
+  {
+    path: '/information',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'information  ',
+        component: () => import('@/views/information/index'),
+        meta: { title: '查看信息', icon: 'table', role: [3] }
       }
     ]
   },

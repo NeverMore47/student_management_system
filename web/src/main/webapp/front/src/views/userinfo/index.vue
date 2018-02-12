@@ -36,15 +36,6 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="Reading statistics" :visible.sync="dialogPvVisible">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel"> </el-table-column>
-        <el-table-column prop="pv" label="Pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">提交</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -78,8 +69,7 @@ export default {
       rules: {
         userRealName: [{ required: true, message: '姓名不能为空', trigger: 'change' }],
         userPhoneNum: [{ required: true, message: '电话不能为空', trigger: 'change' }]
-      },
-      pvData: []
+      }
     }
   },
   created() {
@@ -93,7 +83,6 @@ export default {
       }) 
     },
     onUpdate() {
-        console.log(this.form)
         this.temp = Object.assign({}, this.form)
         this.dialogStatus = 'update'
         this.dialogFormVisible = true
@@ -104,18 +93,16 @@ export default {
     updateData() {
         this.$refs['dataForm'].validate((valid) => {
             if(valid) {
-                console.log(this.temp)
                 const tempData = {
-                    id: this.temp.id,
+                    userId: getToken(),
                     userRealName: this.temp.userRealName,
                     userPhoneNum: this.temp.userPhoneNum,
                     userEmail: this.temp.userEmail,
                     type: 2
                 }
                 saveUserExtendInfo(tempData).then(response => {
-                    console.log(response)
-
-                    if (!response) {
+                    this.dialogFormVisible = false
+                    if (!response.success) {
                         this.$notify({
                             title: '失败',
                             message: response.message,
@@ -124,7 +111,6 @@ export default {
                         })
                         return
                     }
-                    this.dialogFormVisible = false
                     this.$notify({
                         title: '成功',
                         message: '修改成功',

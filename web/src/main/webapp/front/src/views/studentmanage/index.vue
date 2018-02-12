@@ -12,8 +12,15 @@
         <el-option label="四班" value="4"></el-option>
         <el-option label="五班" value="5"></el-option>
       </el-select>
+
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加用户</el-button>
+      <a href="/studentInfo/downloadTemplate" class="el-button filter-item el-button--primary">下载模版</a>
+      <form id="uploadFile" method="post" enctype="multipart/form-data" action="/studentInfo/uploadStudentInfo" style="position: relative; display: inline-block;">
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">导入数据</el-button>
+        <input type="file" class="filter-item" @change="pushImg" accept="image/jpeg,image/png,image/gif" style="width: 117px;height: 40px;position: absolute;top: 0;right: 0;opacity: 0;" />
+      </form>
+      
     </div>
 
 
@@ -23,17 +30,17 @@
           {{scope.row.studentNo}}
         </template>
       </el-table-column>
-      <el-table-column align="center" label='班级' width="200">
+      <el-table-column align="center" label='班级' width="120">
         <template slot-scope="scope">
           {{scope.row.studentClassId | classFilter}}
         </template>
       </el-table-column>
-      <el-table-column label="姓名" align="center" width="200">
+      <el-table-column label="姓名" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.studentRealName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="性别" align="center" width="200">
+      <el-table-column label="性别" align="center" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.studentGender | sexFilter }}</span>
         </template>
@@ -53,7 +60,7 @@
     </el-table>
 
     <div class="pagination-container">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.start"
+      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
         :page-sizes="[10,20,30, 50]" :page-size="listQuery.rows" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </div>
@@ -90,11 +97,11 @@
             <el-option label="计算机及应用" value="计算机及应用"></el-option>
           </el-select>
           <el-select v-model="temp.studentClassId" placeholder="所在班级" style="width: 49%;">
-            <el-option label="一班" value="1"></el-option>
-            <el-option label="二班" value="2"></el-option>
-            <el-option label="三班" value="3"></el-option>
-            <el-option label="四班" value="4"></el-option>
-            <el-option label="五班" value="5"></el-option>
+            <el-option label="一班" value="一班"></el-option>
+            <el-option label="二班" value="二班"></el-option>
+            <el-option label="三班" value="三班"></el-option>
+            <el-option label="四班" value="四班"></el-option>
+            <el-option label="五班" value="五班"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="健康状况">
@@ -120,11 +127,16 @@
         <el-form-item label="学生名">
           <el-input v-model="tempDic.studentRealName" v-bind:disabled="dialogDicDisabled"></el-input>
         </el-form-item>
-        <el-form-item label="奖惩标题" prop="RE_PU_NAME">
-          <el-input v-model="tempDic.RE_PU_NAME"></el-input>
+        <el-form-item label="奖惩标题" prop="rePuName">
+          <el-input v-model="tempDic.rePuName" placeholder="添加奖惩标题"></el-input>
         </el-form-item>
-        <el-form-item label="奖惩内容" prop="RE_PU_DESC">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="添加奖惩记录" v-model="tempDic.RE_PU_DESC">
+        <el-form-item label="奖惩时间" prop="rePuDate">
+          <el-col :span="11">
+            <el-date-picker type="date" placeholder="奖惩时间" v-model="tempDic.rePuDate"></el-date-picker>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="奖惩内容" prop="rePuDesc">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="添加奖惩记录" v-model="tempDic.rePuDesc">
           </el-input>
         </el-form-item>
       </el-form>
@@ -138,7 +150,7 @@
 </template>
 
 <script>
-import { findStudentInfoList, saveStudentInfo, deleteStudentInfo } from '@/api/student'
+import { findStudentInfoList, saveStudentInfo, deleteStudentInfo, saveRewardsAndPunishment } from '@/api/student'
 
 export default {
   data() {
@@ -147,7 +159,7 @@ export default {
       total: 20,
       listLoading: true,
       listQuery: {
-        start: 1,
+        page: 1,
         rows: 20,
         studentNo: undefined,
         studentRealName: undefined,
@@ -174,16 +186,19 @@ export default {
       dialogDicVisible: false,
       dialogDicDisabled: true,
       tempDic: {
+        studentId: undefined,
         studentNo: undefined,
         studentRealName: undefined,
-        RE_PU_DESC: undefined,
-        RE_PU_NAME: undefined
+        rePuDesc: undefined,
+        rePuDate: new Date(),
+        rePuName: undefined
       },
       rules: {
         studentNo: [{ required: true, message: '编号不能为空', trigger: 'change' }],
         studentRealName: [{ required: true, message: '姓名不能为空', trigger: 'change' }],
-        RE_PU_DESC: [{ required: true, message: '奖惩记录不能为空', trigger: 'change' }],
-        RE_PU_NAME: [{ required: true, message: '奖惩标题不能为空', trigger: 'change' }]
+        rePuDesc: [{ required: true, message: '奖惩记录不能为空', trigger: 'change' }],
+        rePuName: [{ required: true, message: '奖惩标题不能为空', trigger: 'change' }],
+        rePuDate: [{ type: 'date', required: true, message: '请选择奖惩时间', trigger: 'change' }]
       },
       downloadLoading: false,
       
@@ -222,10 +237,7 @@ export default {
       })
     },
     handleCurrentChange(val) {
-      if (this.listQuery.start === val) {
-        return
-      }
-      this.listQuery.start = val
+      this.listQuery.page = val
       this.fetchData()
     },
     handleSizeChange(val) {
@@ -294,7 +306,7 @@ export default {
       }
     },
     handleFilter() {
-      this.listQuery.start = 1
+      this.listQuery.page = 1
       this.fetchData()
     },
     handleCreate() {
@@ -315,6 +327,7 @@ export default {
           tempData.departmentId = this.xTransition(tempData.departmentId, 'name')
           tempData.studentClassId = this.classTransition(tempData.studentClassId, 'name')
           tempData.type = 1
+          console.log(tempData)
           saveStudentInfo(tempData).then(response => {
             this.dialogFormVisible = false
             if (!response.success) {
@@ -326,7 +339,6 @@ export default {
               })
               return
             }
-            this.list.unshift(this.temp)
             this.$notify({
               title: '成功',
               message: '创建成功',
@@ -340,9 +352,9 @@ export default {
       })
     },
     handleUpdate(row) {
-      row.departmentId = this.xTransition(row.departmentId)
-      row.studentClassId = this.classTransition(row.studentClassId)
       this.temp = Object.assign({}, row) // copy obj
+      this.temp.departmentId = this.xTransition(this.temp.departmentId)
+      this.temp.studentClassId = this.classTransition(this.temp.studentClassId)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -370,6 +382,7 @@ export default {
               })
               return
             }
+            this.temp.studentClassId = this.classTransition(this.temp.studentClassId, 'name')
             for (const v of this.list) {
               if(v.id === this.temp.id) {
                 const index = this.list.indexOf(v)
@@ -415,7 +428,12 @@ export default {
     },
     handleCreateDisciplinary(row) {
       // 添加奖惩记录
-      this.tempDic = Object.assign({}, row)
+      this.tempDic.studentNo = row.studentNo
+      this.tempDic.studentId = row.id
+      this.tempDic.studentRealName = row.studentRealName
+      this.tempDic.rePuName = undefined
+      this.tempDic.rePuDesc = undefined
+      this.tempDic.rePuDate = new Date()
       this.dialogDicVisible = true
       this.$nextTick(() => {
         this.$refs['dataFormDic'].clearValidate()
@@ -424,9 +442,38 @@ export default {
     createDateDisciplinary() {
       this.$refs['dataFormDic'].validate((valid) => {
         if (valid) {
-
+          var date = new Date(this.tempDic.rePuDate)
+          var dateInfo = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+          const tempData = {
+            studentId: this.tempDic.studentId,
+            rePuName: this.tempDic.rePuName,
+            rePuDesc: this.tempDic.rePuDesc,
+            rePuDate: dateInfo
+          }
+          saveRewardsAndPunishment(tempData).then(response => {
+            console.log(response)
+            this.dialogDicVisible = false
+            if(!response.success) {
+              this.$notify({
+                title: '失败',
+                message: response.message,
+                type: 'error',
+                duration: 2000
+              })
+              return
+            }
+            this.$notify({
+              title: '成功',
+              message: '添加成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
         }
       })
+    },
+    pushImg() {
+       document.getElementById('uploadFile').submit()
     }
   }
 }

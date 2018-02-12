@@ -47,3 +47,35 @@ export function findRewardsAndPunishmentList(params) {
     params
   })
 }
+
+export function saveRewardsAndPunishment(params) {
+  return request({
+    url: '/rewardAndPun/saveRewardsAndPunishment',
+    method: 'get',
+    params
+  })
+}
+
+export function updateReAndPu(params) {
+  return request({
+    url: '/rewardAndPun/updateReAndPu',
+    method: 'get',
+    params
+  })
+}
+
+export function avgResult(params) {
+  return request({
+    url: '/result/avgResult',
+    method: 'get',
+    params
+  })
+}
+
+export function findStudentInfoDetail(params) {
+  return request({
+    url: '/studentInfo/findStudentInfoDetail',
+    method: 'get',
+    params
+  })
+}

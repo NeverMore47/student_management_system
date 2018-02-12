@@ -10,7 +10,6 @@
 
 <script>
 import { Navbar, Sidebar, AppMain } from '@/views/layout/components'
-
 export default {
   name: 'layout',
   components: {
@@ -23,6 +22,7 @@ export default {
       return this.$store.state.app.sidebar
     }
   }
+
 }
 </script>
 
@@ -35,3 +35,4 @@ export default {
   width: 100%;
 }
 </style>
+
