@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public class StudentInfoDTO extends BaseDto {
@@ -21,6 +21,20 @@ public class StudentInfoDTO extends BaseDto {
     private String studentPlaceGoTo;
     private String studentHealthStatus;
     private Long studentClassId;
+
+    public StudentInfoDTO() {
+    }
+
+    public StudentInfoDTO(String studentNo, String studentRealName, Integer studentGender, Date studentBirthDate, String studentNativePlace, String studentPlaceGoTo, String studentHealthStatus, Long studentClassId) {
+        this.studentNo = studentNo;
+        this.studentRealName = studentRealName;
+        this.studentGender = studentGender;
+        this.studentBirthDate = studentBirthDate;
+        this.studentNativePlace = studentNativePlace;
+        this.studentPlaceGoTo = studentPlaceGoTo;
+        this.studentHealthStatus = studentHealthStatus;
+        this.studentClassId = studentClassId;
+    }
 
     public long getId() {
         return id;

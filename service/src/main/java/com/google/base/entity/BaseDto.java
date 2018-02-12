@@ -3,7 +3,7 @@ package com.google.base.entity;
 import java.io.Serializable;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public class BaseDto implements Serializable {

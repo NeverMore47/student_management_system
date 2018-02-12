@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by wanjiahuan on 2018/2/11.
+ * Created by zengxiangyuan on 2018/2/11.
  * Description
  */
 @Controller
@@ -59,7 +59,8 @@ public class RewardsAndPunishmentsRecordController {
     public Result updateReAndPu(RewardsAndPunishmentsRecordDTO recordDTO) {
         Result result = new Result();
 
-        if (!Objects.isNull(recordDTO.getStudentId()) && !StringUtils.isEmpty(recordDTO.getRePuName()) && !Objects.isNull(recordDTO.getRePuDate())) {
+        if (!Objects.isNull(recordDTO.getStudentId()) && !StringUtils.isEmpty(recordDTO.getRePuName())
+                && !Objects.isNull(recordDTO.getRePuDate())) {
             result.setSuccess(recordService.updateReAndPu(recordDTO));
         }  else {
             result.setSuccessAndMessage(false, "参数错误");

@@ -25,14 +25,15 @@
         LEFT JOIN student_info si ON si.ID = rpr.STUDENT_ID
         WHERE 1 = 1
         <if test="rePuName != null and rePuName != ''">
-            AND rpr.RE_PU_NAME = #{rePuName}
+            AND rpr.RE_PU_NAME LIKE CONCAT('%', #{rePuName}, '%')
         </if>
         <if test="studentRealName != null and studentRealName != ''">
-            AND si.STUDENT_REAL_NAME = #{studentRealName}
+            AND si.STUDENT_REAL_NAME LIKE CONCAT('%', #{studentRealName}, '%')
         </if>
         <if test="studentNo != null and studentNo != ''">
             AND si.STUDENT_NO = #{studentNo}
         </if>
+        AND IS_DELETE = 1
     </select>
 
     <select id="findReAndPuListByDto" resultMap="reAndPuVoMap">
@@ -42,14 +43,15 @@
         LEFT JOIN student_info si ON si.ID = rpr.STUDENT_ID
         WHERE 1 = 1
         <if test="rePuName != null and rePuName != ''">
-            AND rpr.RE_PU_NAME = #{rePuName}
+            AND rpr.RE_PU_NAME LIKE CONCAT('%', #{rePuName}, '%')
         </if>
         <if test="studentRealName != null and studentRealName != ''">
-            AND si.STUDENT_REAL_NAME = #{studentRealName}
+            AND si.STUDENT_REAL_NAME LIKE CONCAT('%', #{studentRealName}, '%')
         </if>
         <if test="studentNo != null and studentNo != ''">
             AND si.STUDENT_NO = #{studentNo}
         </if>
+        AND IS_DELETE = 1
         limit #{start}, #{rows}
     </select>
 
@@ -71,7 +73,7 @@
 
     <update id="updateReAndPu">
         UPDATE rewards_and_punishments_records
-        <trim prefix="set" prefixOverrides=",">
+        <trim prefix="set" suffixOverrides=",">
             <if test="rePuName != null and rePuName != ''">
                 RE_PU_NAME = #{rePuName},
             </if>
@@ -81,7 +83,7 @@
             <if test="rePuDate != null and rePuDate != ''">
                 RE_PU_DATE = #{rePuDate},
             </if>
-            <if test="isDelete != null and isDelete != ''">
+            <if test="isDelete != null">
                 IS_DELETE = #{isDelete},
             </if>
             <if test="updateBy != null and updateBy != ''">

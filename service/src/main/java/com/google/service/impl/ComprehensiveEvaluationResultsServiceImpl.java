@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 @Service("comprehensiveEvaluationResultsService")
@@ -45,5 +46,10 @@ public class ComprehensiveEvaluationResultsServiceImpl implements ComprehensiveE
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Map<String, Object>> avgResultGroupByCourseId(Long courseId) {
+        return resultsMapper.avgResultGroupByCourseId(courseId);
     }
 }

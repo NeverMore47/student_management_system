@@ -5,7 +5,7 @@ import com.google.base.entity.BaseDto;
 import java.sql.Timestamp;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public class UserDTO extends BaseDto {

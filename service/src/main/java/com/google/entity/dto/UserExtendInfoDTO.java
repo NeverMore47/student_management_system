@@ -3,7 +3,7 @@ package com.google.entity.dto;
 import com.google.base.entity.BaseDto;
 
 /**
- * Created by wanjiahuan on 2018/2/6.
+ * Created by zengxiangyuan on 2018/2/6.
  * Description
  */
 public class UserExtendInfoDTO extends BaseDto {
