@@ -65,7 +65,7 @@ public class ImportExcelUtil {
                 List<Object> li = new ArrayList<>();
                 for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {
                     cell = row.getCell(y);
-                    if (!Objects.isNull(cell) && !StringUtils.isEmpty(cell.getStringCellValue())) {
+                    if (!Objects.isNull(cell)) {
                         li.add(getCellValue(cell));
                     }
                 }
@@ -108,7 +108,7 @@ public class ImportExcelUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");  //日期格式化
         DecimalFormat df2 = new DecimalFormat("0.00");  //格式化数字
 
-        if (!Objects.isNull(cell) && !StringUtils.isEmpty(cell.getStringCellValue())) {
+        if (!Objects.isNull(cell)) {
             switch (cell.getCellType()) {
                 case Cell.CELL_TYPE_STRING:
                     value = cell.getRichStringCellValue().getString();
