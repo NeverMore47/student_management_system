@@ -148,15 +148,15 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
                     Long classId = 0L;
                     String className = infoList.get(7).toString();
-                    if (Objects.equals(className, "一班")) {
+                    if (Objects.equals(className, "信管一班")) {
                         classId = 1L;
-                    } else if (Objects.equals(className, "二班")) {
+                    } else if (Objects.equals(className, "信管二班")) {
                         classId = 2L;
-                    } else if (Objects.equals(className, "三班")) {
+                    } else if (Objects.equals(className, "信管三班")) {
                         classId = 3L;
-                    } else if (Objects.equals(className, "四班")) {
+                    } else if (Objects.equals(className, "信管四班")) {
                         classId = 4L;
-                    } else if (Objects.equals(className, "五班")) {
+                    } else if (Objects.equals(className, "信管五班")) {
                         classId = 5L;
                     }
 

@@ -12,6 +12,7 @@
     <mvc:annotation-driven />
 
     <!-- 本处（排除controller）使用ContextLoaderListener管理容器。 过滤器、拦截器器、监听器中才可以获取容器里bean。-->
+    <!--扫描service-->
     <context:component-scan base-package="com.google">
         <context:exclude-filter type="aspectj" expression="com.google.controller"/>
     </context:component-scan>

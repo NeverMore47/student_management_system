@@ -49,6 +49,9 @@
         <if test="infoDto.studentClassId != null and infoDto.studentClassId != 0">
             AND STUDENT_CLASS_ID = #{infoDto.studentClassId}
         </if>
+        <if test="infoDto.id != null and infoDto.id != 0">
+            AND si.ID = #{infoDto.id}
+        </if>
         limit #{infoDto.start}, #{infoDto.rows}
     </select>
 

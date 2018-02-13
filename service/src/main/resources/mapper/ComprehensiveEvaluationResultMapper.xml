@@ -19,6 +19,7 @@
           COUNT(*)
         FROM comprehensive_evaluation_results cer
         LEFT JOIN student_info si ON si.ID = cer.STUDENT_ID
+        LEFT JOIN course_info ci ON ci.ID = cer.COURSE_ID
         WHERE 1=1
         <if test="resultDTO.courseId != null and resultDTO.courseId != 0">
             AND COURSE_ID = #{resultDTO.courseId}
@@ -28,6 +29,9 @@
         </if>
         <if test="classId != null and classId != 0">
             AND si.STUDENT_CLASS_ID = #{classId}
+        </if>
+        <if test="resultDTO.courseName != null and resultDTO.courseName != ''">
+            AND ci.COURSE_NAME = #{resultDTO.courseName}
         </if>
     </select>
 
@@ -45,6 +49,9 @@
         </if>
         <if test="classId != null and classId != 0">
             AND si.STUDENT_CLASS_ID = #{classId}
+        </if>
+        <if test="resultDTO.courseName != null and resultDTO.courseName != ''">
+            AND ci.COURSE_NAME = #{resultDTO.courseName}
         </if>
         limit #{resultDTO.start}, #{resultDTO.rows}
     </select>

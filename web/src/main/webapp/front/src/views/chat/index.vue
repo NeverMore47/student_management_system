@@ -2,18 +2,18 @@
   <div class="app-container">
     <div class="filter-container">
      <el-select clearable class="filter-item" style="width: 130px" v-model="courseId" placeholder="选择课程">
-        <el-option label="操作系统" value="1"></el-option>
-        <el-option label="编译原理" value="2"></el-option>
-        <el-option label="数据结构与算法" value="3"></el-option>
-        <el-option label="人工智能导论" value="4"></el-option>  
+        <el-option label="Web程序设计" value="1"></el-option>
+        <el-option label="大学生就业指导" value="2"></el-option>
+        <el-option label="分布式数据库应用" value="3"></el-option>
+        <el-option label="数据结构课程设计" value="4"></el-option>
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
     </div>
-    
+
     <figure>
       <div id="myChart" :style="{width: '100%', height: '60vh'}"></div>
     </figure>
-    
+
   </div>
 </template>
 
@@ -60,20 +60,20 @@ export default {
             }
         }
         const courseMap = {
-            1: '操作系统',
-            2: '编译原理',
-            3: '数据结构与算法',
-            4: '人工智能导论'
+            1: 'Web程序设计',
+            2: '大学生就业指导',
+            3: '分布式数据库应用',
+            4: '数据结构课程设计'
         }
         myChart.setOption({
             color: ['#606c94'],
             title: { text: courseMap[data[0].courseId] + '的平均分' },
             tooltip: {},
             xAxis: {
-                data: ["一班", "二班", "三班", "四班", "五班"]
+                data: ["信管一班", "信管二班", "信管三班", "信管四班", "信管五班"]
             },
             yAxis: {
-                
+
             },
             series: [{
                 name: '分数',
@@ -112,7 +112,7 @@ export default {
                 this.drawLine(data)
             }
         })
-        
+
     }
   }
 }

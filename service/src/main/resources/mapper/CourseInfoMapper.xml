@@ -7,6 +7,6 @@
     </resultMap>
 
     <select id="findCourseInfoByClassId" resultMap="courseInfoVO">
-        SELECT * FROM course_info WHERE COURSE_PROVIDER_CLASS = #{classId}
+        SELECT * FROM class_course WHERE CLASS_ID = #{classId}
     </select>
 </mapper>

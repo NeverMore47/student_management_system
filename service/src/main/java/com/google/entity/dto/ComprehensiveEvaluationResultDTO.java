@@ -17,6 +17,7 @@ public class ComprehensiveEvaluationResultDTO extends BaseDto {
     private Timestamp updateAt;
 
     private String studentNo;
+    private String courseName;
 
     public Long getId() {
         return id;
@@ -72,5 +73,13 @@ public class ComprehensiveEvaluationResultDTO extends BaseDto {
 
     public void setStudentNo(String studentNo) {
         this.studentNo = studentNo;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 }

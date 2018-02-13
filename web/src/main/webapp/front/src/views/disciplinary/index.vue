@@ -17,7 +17,7 @@
         </template>
       </el-table-column>
       <el-table-column label="姓名" align="center" width="200">
-        <template slot-scope="scope"> 
+        <template slot-scope="scope">
           <span>{{ scope.row.studentRealName }}</span>
         </template>
       </el-table-column>
@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       id: '',
-      importance: '操作系统',
+      importance: 'Web程序设计',
       list: null,
       total: 100,
       listLoading: true,
@@ -138,7 +138,7 @@ export default {
     },
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
-      
+
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
@@ -179,7 +179,7 @@ export default {
         }
       })
     },
-    handleModifyStatus(row) {  
+    handleModifyStatus(row) {
       var date = new Date(row.rePuDate)
       var dateInfo = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
 

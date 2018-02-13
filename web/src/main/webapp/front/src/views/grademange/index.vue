@@ -2,17 +2,17 @@
   <div class="app-container">
     <div class="filter-container">
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.classId" placeholder="选择班级">
-        <el-option label="一班" value="1"></el-option>
-        <el-option label="二班" value="2"></el-option>
-        <el-option label="三班" value="3"></el-option>
-        <el-option label="四班" value="4"></el-option>
-        <el-option label="五班" value="5"></el-option>
+        <el-option label="信管一班" value="1"></el-option>
+        <el-option label="信管二班" value="2"></el-option>
+        <el-option label="信管三班" value="3"></el-option>
+        <el-option label="信管四班" value="4"></el-option>
+        <el-option label="信管五班" value="5"></el-option>
       </el-select>
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.courseId" placeholder="选择课程">
-        <el-option label="操作系统" value="1"></el-option>
-        <el-option label="编译原理" value="2"></el-option>
-        <el-option label="数据结构与算法" value="3"></el-option>
-        <el-option label="人工智能导论" value="4"></el-option>  
+        <el-option label="Web程序设计" value="1"></el-option>
+        <el-option label="大学生就业指导" value="2"></el-option>
+        <el-option label="分布式数据库应用" value="3"></el-option>
+        <el-option label="数据结构课程设计" value="4"></el-option>
       </el-select>
       <el-input style="width: 200px;" class="filter-item" placeholder="学生编号" v-model="listQuery.studentNo">
       </el-input>
@@ -68,11 +68,11 @@
         </el-form-item>
         <el-form-item label="课程名">
           <el-select v-bind:disabled="disabledForm" v-model="temp.courseId" placeholder="课程">
-            <el-option label="操作系统" value="操作系统"></el-option>
-            <el-option label="编译原理" value="编译原理"></el-option>
-            <el-option label="数据结构与算法" value="数据结构与算法"></el-option>
-            <el-option label="人工智能导论" value="人工智能导论"></el-option>
-          </el-select>      
+            <el-option label="Web程序设计" value="Web程序设计"></el-option>
+            <el-option label="大学生就业指导" value="大学生就业指导"></el-option>
+            <el-option label="分布式数据库应用" value="分布式数据库应用"></el-option>
+            <el-option label="数据结构课程设计" value="数据结构课程设计"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="分数" prop="resultScore">
           <el-input v-model="temp.resultScore"></el-input>
@@ -114,7 +114,7 @@ export default {
         id: undefined,
         studentNo: '',
         studentRealName: '',
-        courseId: '操作系统',
+        courseId: 'Web程序设计',
         resultScore: ''
       },
       rules: {
@@ -126,20 +126,20 @@ export default {
   filters: {
     classFilter(classid) {
       const classMap = {
-        1: '一班',
-        2: '二班',
-        3: '三班',
-        4: '四班',
-        5: '五班'
+        1: '信管一班',
+        2: '信管二班',
+        3: '信管三班',
+        4: '信管四班',
+        5: '信管五班'
       }
       return classMap[classid]
     },
     courseFilter(courseid) {
       const courseMap = {
-        1: '操作系统',
-        2: '编译原理',
-        3: '数据结构与算法',
-        4: '人工智能导论'
+        1: 'Web程序设计',
+        2: '大学生就业指导',
+        3: '分布式数据库应用',
+        4: '数据结构课程设计'
       }
       return courseMap[courseid]
     }
@@ -171,7 +171,7 @@ export default {
       this.temp = {
         id: undefined,
         name: '',
-        department: '操作系统',
+        department: 'Web程序设计',
         grade: ''
       }
     },
@@ -184,17 +184,17 @@ export default {
       type = type ? type : 'default'
       if(type === 'default') {
         courseMap = {
-          1: '操作系统',
-          2: '编译原理',
-          3: '数据结构与算法',
-          4: '人工智能导论'
+          1: 'Web程序设计',
+          2: '大学生就业指导',
+          3: '分布式数据库应用',
+          4: '数据结构课程设计'
         }
       }else {
         courseMap = {
-          '操作系统' : 1,
-          '编译原理' : 2,
-          '数据结构与算法' : 3,
-          '人工智能导论' : 4
+          'Web程序设计' : 1,
+          '大学生就业指导' : 2,
+          '分布式数据库应用' : 3,
+          '数据结构课程设计' : 4
         }
       }
       return courseMap[courseid]

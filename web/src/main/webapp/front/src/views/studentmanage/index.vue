@@ -6,11 +6,11 @@
       <el-input style="width: 200px;" class="filter-item" placeholder="真实姓名" v-model="listQuery.studentRealName">
       </el-input>
       <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.studentClassId" placeholder="选择班级">
-        <el-option label="一班" value="1"></el-option>
-        <el-option label="二班" value="2"></el-option>
-        <el-option label="三班" value="3"></el-option>
-        <el-option label="四班" value="4"></el-option>
-        <el-option label="五班" value="5"></el-option>
+        <el-option label="信管一班" value="1"></el-option>
+        <el-option label="信管二班" value="2"></el-option>
+        <el-option label="信管三班" value="3"></el-option>
+        <el-option label="信管四班" value="4"></el-option>
+        <el-option label="信管五班" value="5"></el-option>
       </el-select>
 
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
@@ -111,18 +111,18 @@
         </el-form-item>
         <el-form-item label="所在班级">
           <el-select v-model="temp.departmentId" placeholder="所在系" style="width: 49%;">
-            <el-option label="电子学与信息系统" value="电子学与信息系统"></el-option>
-            <el-option label="无线电物理学" value="无线电物理学"></el-option>
-            <el-option label="物理电子学" value="物理电子学"></el-option>
-            <el-option label="计算机软件" value="计算机软件"></el-option>
-            <el-option label="计算机及应用" value="计算机及应用"></el-option>
+            <el-option label="信管系" value="信管系"></el-option>
+            <el-option label="会计系" value="会计系"></el-option>
+            <el-option label="工商系" value="工商系"></el-option>
+            <el-option label="法管系" value="法管系"></el-option>
+            <el-option label="外语系" value="外语系"></el-option>
           </el-select>
           <el-select v-model="temp.studentClassId" placeholder="所在班级" style="width: 49%;">
-            <el-option label="一班" value="一班"></el-option>
-            <el-option label="二班" value="二班"></el-option>
-            <el-option label="三班" value="三班"></el-option>
-            <el-option label="四班" value="四班"></el-option>
-            <el-option label="五班" value="五班"></el-option>
+            <el-option label="信管一班" value="信管一班"></el-option>
+            <el-option label="信管二班" value="信管二班"></el-option>
+            <el-option label="信管三班" value="信管三班"></el-option>
+            <el-option label="信管四班" value="信管四班"></el-option>
+            <el-option label="信管五班" value="信管五班"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="健康状况">
@@ -231,7 +231,7 @@ export default {
         2: '女',
         0: '未知'
       }
-      return statusMap[status] 
+      return statusMap[status]
     },
     classFilter(classid) {
       const classMap = {
@@ -249,7 +249,7 @@ export default {
   },
   methods: {
      handleChange(file, fileList) {
-        
+
       },
       handleSuccess(response, file, fileList) {
           this.$notify({
@@ -293,22 +293,22 @@ export default {
       var nameMap = {}
       if(tempType === 'default') {
         nameMap = {
-          1: '电子学与信息系统',
-          2: '无线电物理学',
-          3: '物理电子学',
-          4: '计算机软件',
-          5: '计算机及应用'
+          1: '信管系',
+          2: '会计系',
+          3: '工商系',
+          4: '法管系',
+          5: '外语系'
         }
       } else {
         nameMap = {
-          '电子学与信息系统' :1,
-          '无线电物理学' :2,
-          '物理电子学' :3,
-          '计算机软件' :4,
-          '计算机及应用' :5
+          '信管系' :1,
+          '会计系' :2,
+          '工商系' :3,
+          '法管系' :4,
+          '外语系' :5
         }
       }
-      return nameMap[xname] 
+      return nameMap[xname]
     },
     classTransition(cname, type) {
       const tempType = type ? type : 'default'
@@ -330,7 +330,7 @@ export default {
           '五班' :5
         }
       }
-      return nameMap[cname] 
+      return nameMap[cname]
     },
     resetTemp() {
       this.temp = {

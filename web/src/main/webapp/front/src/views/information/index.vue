@@ -78,24 +78,24 @@ export default {
                 2: '女',
                 0: '未知'
             }
-            return statusMap[status] 
+            return statusMap[status]
         },
         courseFilter(courseid) {
             const courseMap = {
-                1: '操作系统',
-                2: '编译原理',
-                3: '数据结构与算法',
-                4: '人工智能导论'
+                1: 'Web程序设计',
+                2: '大学生就业指导',
+                3: '分布式数据库应用',
+                4: '数据结构课程设计'
             }
             return courseMap[courseid]
         },
         classFilter(classid) {
             const classMap = {
-                1: '一班',
-                2: '二班',
-                3: '三班',
-                4: '四班',
-                5: '五班'
+                1: '信管一班',
+                2: '信管二班',
+                3: '信管三班',
+                4: '信管四班',
+                5: '信管五班'
             }
             return classMap[classid]
         },
@@ -124,7 +124,7 @@ export default {
       this.createdTimes = this.createdTimes + 1
     },
     handleChange(file, fileList) {
-    
+
     },
     handleSuccess(response, file, fileList) {
         if(response.success) {
