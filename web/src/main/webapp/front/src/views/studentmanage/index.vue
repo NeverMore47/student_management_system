@@ -16,11 +16,24 @@
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查询</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加用户</el-button>
       <a href="/studentInfo/downloadTemplate" class="el-button filter-item el-button--primary">下载模版</a>
-      <form id="uploadFile" method="post" enctype="multipart/form-data" action="/studentInfo/uploadStudentInfo" style="position: relative; display: inline-block;">
-        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">导入数据</el-button>
-        <input type="file" class="filter-item" @change="pushImg" accept="image/jpeg,image/png,image/gif" style="width: 117px;height: 40px;position: absolute;top: 0;right: 0;opacity: 0;" />
-      </form>
-      
+      <!-- <vue-file-upload
+      url="/studentInfo/uploadStudentInfo"
+      ref="vueFileUploader"
+      :events='cbEvents'
+      :filters='filters'
+      :request-options='reqopts'
+      v-on:onAdd='onAddItem' class="VueFileUpload el-button filter-item el-button--primary">
+        <span slot="label">上传文件</span>
+      </vue-file-upload> -->
+      <el-upload
+      class="upload-demo el-button filter-item el-button--primary"
+      action="/studentInfo/uploadStudentInfo"
+      :on-change="handleChange"
+      :on-success="handleSuccess"
+      :on-error="handleError"
+      :show-file-list="false">
+      <el-button size="small" type="primary" >导入文件</el-button>
+</el-upload>
     </div>
 
 
@@ -151,7 +164,6 @@
 
 <script>
 import { findStudentInfoList, saveStudentInfo, deleteStudentInfo, saveRewardsAndPunishment } from '@/api/student'
-
 export default {
   data() {
     return {
@@ -201,7 +213,7 @@ export default {
         rePuDate: [{ type: 'date', required: true, message: '请选择奖惩时间', trigger: 'change' }]
       },
       downloadLoading: false,
-      
+     fileList3:[]
     }
   },
   filters: {
@@ -228,6 +240,28 @@ export default {
     this.fetchData()
   },
   methods: {
+     handleChange(file, fileList) {
+        
+      },
+      handleSuccess(response, file, fileList) {
+        console.log(response)
+          this.$notify({
+            title: '操作成功',
+            message: response.message,
+            type: 'success',
+            duration: 2000
+          })
+          this.fetchData()
+      },
+      handleError(err, file, fileList){
+          this.$notify({
+            title: '操作失败',
+            message: '导入文件失败',
+            type: 'error',
+            duration: 2000
+          })
+          this.fetchData()
+      },
     fetchData() {
       this.listLoading = true
       findStudentInfoList(this.listQuery).then(response => {
@@ -471,10 +505,14 @@ export default {
           })
         }
       })
-    },
-    pushImg() {
-       document.getElementById('uploadFile').submit()
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.upload-demo {
+  padding: 3px;
+}
+
+</style>
