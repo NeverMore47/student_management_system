@@ -19,6 +19,8 @@ public class StudentInfoVO {
     private long studentClassId;
     private long departmentId;
 
+    private String internshipReportPath;
+
     public long getId() {
         return id;
     }
@@ -105,5 +107,13 @@ public class StudentInfoVO {
 
     public void setDepartmentId(long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public String getInternshipReportPath() {
+        return internshipReportPath;
+    }
+
+    public void setInternshipReportPath(String internshipReportPath) {
+        this.internshipReportPath = internshipReportPath;
     }
 }

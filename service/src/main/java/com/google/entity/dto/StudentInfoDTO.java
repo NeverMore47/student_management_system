@@ -22,6 +22,8 @@ public class StudentInfoDTO extends BaseDto {
     private String studentHealthStatus;
     private Long studentClassId;
 
+    private String internshipReportPath;
+
     public StudentInfoDTO() {
     }
 
@@ -114,5 +116,13 @@ public class StudentInfoDTO extends BaseDto {
 
     public void setStudentClassId(Long studentClassId) {
         this.studentClassId = studentClassId;
+    }
+
+    public String getInternshipReportPath() {
+        return internshipReportPath;
+    }
+
+    public void setInternshipReportPath(String internshipReportPath) {
+        this.internshipReportPath = internshipReportPath;
     }
 }

@@ -14,6 +14,7 @@
         <result column="STUDENT_HEALTH_STATUS" property="studentHealthStatus"/>
         <result column="STUDENT_CLASS_ID" property="studentClassId"/>
         <result column="DEPARTMENT_ID" property="departmentId"/>
+        <result column="STUDENT_INTERNSHIP_REPORT_PATH" property="internshipReportPath"/>
     </resultMap>
 
     <select id="countStudentInfoListByDto" resultType="int">
@@ -110,6 +111,9 @@
             </if>
             <if test="studentClassId != null and studentClassId != ''">
                 STUDENT_CLASS_ID = #{studentClassId},
+            </if>
+            <if test="internshipReportPath != null and internshipReportPath != ''">
+                STUDENT_INTERNSHIP_REPORT_PATH = #{internshipReportPath},
             </if>
         </trim>
         WHERE ID = #{id}
