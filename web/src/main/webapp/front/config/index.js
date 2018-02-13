@@ -11,29 +11,28 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
-        // target: 'http://192.168.8.31:80',
-        target: 'http://192.168.8.42:8080',
-        changeOrigin: true
-      },
+      // '/api': {
+      //   target: 'http://192.168.8.42:8080',
+      //   changeOrigin: true
+      // },
       '/user': {
-        target: 'http://192.168.8.42:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true
       },
       '/userExtendInfo': {
-        target: 'http://192.168.8.42:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true
       },
       '/studentInfo': {
-        target: 'http://192.168.8.42:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true
       },
       '/result': {
-        target: 'http://192.168.8.42:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true
       },
       '/rewardAndPun': {
-        target: 'http://192.168.8.42:8080',
+        target: 'http://localhost:8080',
         changeOrigin: true
       }
     },

@@ -35,6 +35,8 @@ public class UserServiceImpl implements UserService {
 
         if (Objects.isNull(userVO)) {
             result.setSuccessAndMessage(false, "用户不存在");
+        } else if (Objects.equals(userVO.getIsDelete(), 0)) {
+            result.setSuccessAndMessage(false, "账号被冻结，请联系管理员");
         } else {
             if (!Objects.equals(userDTO.getUserPwd(), userVO.getUserPwd())) {
                 result.setSuccessAndMessage(false, "密码错误");

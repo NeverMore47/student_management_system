@@ -161,4 +161,74 @@ public class StudentInfoController {
             }
         }
     }
+
+    @RequestMapping("/uploadFile")
+    @ResponseBody
+    public Result uploadFile(@RequestParam(value = "file", required = false) MultipartFile file, String studentNo, Long studentId) {
+        Result result = new Result();
+
+        if (!Objects.isNull(file) && !StringUtils.isEmpty(studentNo) && !Objects.isNull(studentId)) {
+            String fileName = studentNo + file.getOriginalFilename();
+            String basePath = common.getProperty("internshipReportPath");
+
+            File newFile = new File(basePath, fileName);
+            if (newFile.exists()) {
+                result.setSuccessAndMessage(false,"文件名已存在");
+                return result;
+            }
+
+            try {
+                file.transferTo(newFile);
+                StudentInfoDTO infoDTO = new StudentInfoDTO();
+                infoDTO.setInternshipReportPath(fileName);
+                infoDTO.setId(studentId);
+
+                result.setSuccess(studentInfoService.updateStudentInfo(infoDTO));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            result.setSuccessAndMessage(false, "参数错误");
+        }
+
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/downloadFile")
+    public void downloadFile(HttpServletResponse response, Long studentId) {
+
+        StudentInfoDTO infoDTO = new StudentInfoDTO();
+        infoDTO.setId(studentId);
+        String reportPath = studentInfoService.findStudentInfoListByDto(infoDTO).get(0).getInternshipReportPath();
+
+        String fileName = common.getProperty("internshipReportPath") + reportPath;
+
+        FileInputStream is = null;
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + reportPath);
+
+        File file = new File(fileName);
+        try {
+            is = new FileInputStream(file);
+            int len;
+            byte buffer[] = new byte[1024];
+            OutputStream out = response.getOutputStream();
+            while ((len = is.read(buffer)) > 0) {
+                out.write(buffer, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
