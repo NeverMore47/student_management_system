@@ -30,6 +30,9 @@ const user = {
       userInfo.userName = userInfo.userName.trim()
       return new Promise((resolve, reject) => {
         login(userInfo).then(response => {
+          if (!response.success) {
+            alert(response.message)
+          }
           const data = response.data
           setToken(data.userInfo.id)
           commit('SET_TOKEN', data.userInfo.id)

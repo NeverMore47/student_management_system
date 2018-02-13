@@ -52,8 +52,6 @@
           <el-select v-model="temp.userRoleId" placeholder="角色类型" style="width: 49%;">
             <el-option label="管理员" value="管理员"></el-option>
             <el-option label="老师" value="老师"></el-option>
-            <el-option label="助教" value="助教"></el-option>
-            <el-option label="校医" value="校医"></el-option>
           </el-select>
         </el-form-item>
       </el-form>

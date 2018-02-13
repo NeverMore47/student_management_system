@@ -1,9 +1,18 @@
 <template>
   <div class="tab-container">
+    <el-upload
+        class="upload-demo el-button filter-item el-button--primary"
+        :action="action"
+        :on-change="handleChange"
+        :on-success="handleSuccess"
+        :on-error="handleError"
+        :show-file-list="false">
+        <el-button size="small" type="primary" >上传实习报告</el-button>
+    </el-upload>
     <el-tabs style='margin-top:15px;' v-model="activeName" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :label="item.label" :key='item.key' :name="item.key">
         <template v-if="activeName == item.key &&  item.key == 'in'">
-            <el-form ref="form" :model="form" label-width="120px">
+            <el-form ref="form" :model="form" label-width="150px">
                 <el-form-item label="学号">
                     <span>{{ form.studentNo }}</span>
                 </el-form-item>
@@ -25,12 +34,15 @@
                 <el-form-item label="去向">
                     <span>{{ form.studentNativePlace }}</span>
                 </el-form-item>
+                <el-form-item label="实习报告是否已上传">
+                    <span>{{ form.internshipReportPath ? '是' : '否' }}</span>
+                </el-form-item>
             </el-form>
         </template>
         <template v-if="item.key == 'gr'">
             <el-form ref="form" :model="form" label-width="120px">
                 <template v-for="item in grade">
-                    <el-form-item :label="item.courseId | courseFilter" >
+                    <el-form-item :label="item.courseId | courseFilter" :key="item.courseId" >
                         <span>{{ item.resultScore }}</span>
                     </el-form-item>
                 </template>
@@ -54,7 +66,9 @@ export default {
       ],
       activeName: 'in',
       form: {},
-      grade: {}
+      grade: {},
+      fileList3:[],
+      action: ''
     }
   },
     filters: {
@@ -103,11 +117,42 @@ export default {
             console.log(tempData)
             this.form = Object.assign({}, response.data.studentInfo)
             this.grade = Object.assign({}, response.data.resultInfo)
+            this.action = '/studentInfo/uploadFile?studentId=' + response.data.studentInfo.id + '&studentNo=' + response.data.studentInfo.studentNo
         })
     },
     showCreatedTimes() {
       this.createdTimes = this.createdTimes + 1
-    }
+    },
+    handleChange(file, fileList) {
+    
+    },
+    handleSuccess(response, file, fileList) {
+        if(response.success) {
+            this.$notify({
+                title: '成功',
+                message: '上传成功',
+                type: 'success',
+                duration: 2000
+            })
+            this.fetchData()
+        } else {
+             this.$notify({
+                title: '上传失败',
+                message: response.message,
+                type: 'error',
+                duration: 2000
+            })
+        }
+    },
+    handleError(err, file, fileList){
+        this.$notify({
+        title: '上传失败',
+        message: '上传实习报告失败',
+        type: 'error',
+        duration: 2000
+        })
+        this.fetchData()
+    },
   }
 }
 </script>
@@ -116,4 +161,7 @@ export default {
   .tab-container{
     margin: 30px;
   }
+.upload-demo {
+  padding: 3px;
+}
 </style>

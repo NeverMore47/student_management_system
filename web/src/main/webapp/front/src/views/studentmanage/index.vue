@@ -26,14 +26,14 @@
         <span slot="label">上传文件</span>
       </vue-file-upload> -->
       <el-upload
-      class="upload-demo el-button filter-item el-button--primary"
-      action="/studentInfo/uploadStudentInfo"
-      :on-change="handleChange"
-      :on-success="handleSuccess"
-      :on-error="handleError"
-      :show-file-list="false">
-      <el-button size="small" type="primary" >导入文件</el-button>
-</el-upload>
+        class="upload-demo el-button filter-item el-button--primary"
+        action="/studentInfo/uploadStudentInfo"
+        :on-change="handleChange"
+        :on-success="handleSuccess"
+        :on-error="handleError"
+        :show-file-list="false">
+        <el-button size="small" type="primary" >导入文件</el-button>
+      </el-upload>
     </div>
 
 
@@ -61,6 +61,14 @@
       <el-table-column label="籍贯" width="150" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.studentNativePlace}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="实习报告" width="150" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.internshipReportPath">
+            <a :href="'/studentInfo/downloadFile?studentId=' + scope.row.id" class="el-button el-button--primary el-button--mini">下载</a>
+            </span>
+          <span v-else>无</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" >
@@ -244,7 +252,6 @@ export default {
         
       },
       handleSuccess(response, file, fileList) {
-        console.log(response)
           this.$notify({
             title: '操作成功',
             message: response.message,
@@ -256,7 +263,7 @@ export default {
       handleError(err, file, fileList){
           this.$notify({
             title: '操作失败',
-            message: '导入文件失败',
+            message: '上传实习报告失败',
             type: 'error',
             duration: 2000
           })
