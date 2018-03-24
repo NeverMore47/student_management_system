@@ -86,8 +86,10 @@ public class StudentInfoController {
 
         if (!Objects.isNull(userId)) {
             StudentInfoVO studentInfoVO = studentInfoService.findStudentInfoDetailByUserId(userId);
-            result.addAttribute("studentInfo", studentInfoVO);
-            result.addAttribute("resultInfo", resultsService.findComprehensiveEvaluationResultByStudentId(studentInfoVO.getId()));
+            if (!Objects.isNull(studentInfoVO)) {
+            	result.addAttribute("studentInfo", studentInfoVO);
+                result.addAttribute("resultInfo", resultsService.findComprehensiveEvaluationResultByStudentId(studentInfoVO.getId()));
+            }      
         } else {
             result.setSuccessAndMessage(false, "参数错误");
         }

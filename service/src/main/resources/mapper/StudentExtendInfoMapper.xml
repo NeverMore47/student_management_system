@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.google.dao.StudentExtendInfoMapper">
+
+	<resultMap id="studentExtendInfoVo" type="com.google.entity.vo.StudentExtendInfoVO">
+		<id column="ID" property="id"/>
+        <result column="STUDENT_PHONE_NUM" property="studentPhoneNum"/>
+        <result column="STUDENT_ADRESS" property="studentAdress"/>
+        <result column="POLITICAL_STATUS" property="studentAdress"/>
+        <result column="AVERAGE_POINT" property="averagePoint"/>
+        <result column="GRADUATION_DATE" property="graduationDate"/>
+        <result column="GRADUATION_NO" property="graduationNo"/>
+	</resultMap>
+
+	
+    <select id="findStudentExtendInfoList" resultMap="studentExtendInfoVo">
+        select * from student_extend_info
+    </select>
+</mapper>
