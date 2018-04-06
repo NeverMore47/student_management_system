@@ -3,12 +3,14 @@ package com.google.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.google.dao.StudentExtendInfoMapper;
 import com.google.entity.dto.StudentExtendInfoDTO;
 import com.google.entity.vo.StudentExtendInfoVO;
 import com.google.service.StudentExtendInfoService;
 
+@Service("studentExtendInfoService")
 public class StudentExtendInfoServiceImpl implements StudentExtendInfoService {
 
 	@Autowired
