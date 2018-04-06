@@ -11,3 +11,5 @@ build/
 /workspace.xml
 .DS_Store
 *.DS_Store
+/.classpath
+/.project
