@@ -4,16 +4,100 @@
 
 	<resultMap id="studentExtendInfoVo" type="com.google.entity.vo.StudentExtendInfoVO">
 		<id column="ID" property="id"/>
+		<result column="STUDENT_ID" property="studentId"/>
         <result column="STUDENT_PHONE_NUM" property="studentPhoneNum"/>
         <result column="STUDENT_ADRESS" property="studentAdress"/>
         <result column="POLITICAL_STATUS" property="studentAdress"/>
         <result column="AVERAGE_POINT" property="averagePoint"/>
         <result column="GRADUATION_DATE" property="graduationDate"/>
         <result column="GRADUATION_NO" property="graduationNo"/>
+        <result column="STUDENT_NO" property="studentNo"/>
+        <result column="STUDENT_REAL_NAME" property="studentRealName"/>
 	</resultMap>
+	
+	<resultMap id="studentAllInfoVo" type="com.google.entity.vo.StudentInfoVO">
+        <id column="ID" property="id"/>
+        <result column="STUDENT_NO" property="studentNo"/>
+        <result column="STUDENT_REAL_NAME" property="studentRealName"/>
+        <result column="STUDENT_GENDER" property="studentGender"/>
+        <result column="STUDENT_BIRTH_DATE" property="studentBirthDate"/>
+        <result column="STUDENT_NATIVE_PLACE" property="studentNativePlace"/>
+        <result column="STUDENT_PLACE_GO_TO" property="studentPlaceGoTo"/>
+        <result column="STUDENT_HEALTH_STATUS" property="studentHealthStatus"/>
+        <result column="STUDENT_CLASS_ID" property="studentClassId"/>
+        <result column="DEPARTMENT_ID" property="departmentId"/>
 
+        <collection property="raprList" ofType="com.google.entity.vo.RewardsAndPunishmentsRecordVO">
+            <id column="rId" property="id"/>
+            <result column="RE_PU_NAME" property="rePuName"/>
+        </collection>
+        <collection property="cerList" ofType="com.google.entity.vo.ComprehensiveEvaluationResultVO">
+            <id column="cId" property="id"/>
+            <result column="COURSE_ID" property="courseId"/>
+            <result column="RESULT_SCORE" property="resultScore"/>
+        </collection>
+    </resultMap>
+	
+	<select id="countStudentExtendInfo" resultType="int">
+        select 
+        	count(*) 
+        from student_extend_info sei
+        left join student_info si on sei.STUDENT_ID = si.ID
+        where 1 = 1
+        <if test="studentNo != null and studentNo != ''">
+        	and si.STUDENT_NO = #{studentNo}
+        </if>
+        <if test="studentRealName != null and studentRealName != ''">
+        	and si.studentRealName = #{studentRealName}
+        </if>
+    </select>
 	
     <select id="findStudentExtendInfoList" resultMap="studentExtendInfoVo">
-        select * from student_extend_info
+        select 
+        	* 
+        from student_extend_info sei
+        left join student_info si on sei.STUDENT_ID = si.ID
+        where 1 = 1
+        <if test="studentNo != null and studentNo != ''">
+        	and si.STUDENT_NO = #{studentNo}
+        </if>
+        <if test="studentRealName != null and studentRealName != ''">
+        	and si.studentRealName = #{studentRealName}
+        </if>
+        limit #{start}, #{rows}
+    </select>
+    
+    <insert id="saveStudentExtendInfo" useGeneratedKeys="true" keyProperty="id" parameterType="com.google.entity.dto.StudentExtendInfoDTO">
+    	insert into student_extend_info (
+    		STUDENT_ID,
+    		STUDENT_PHONE_NUM,
+    		STUDENT_ADRESS,
+    		POLITICAL_STATUS
+    	) values (
+    		#{studentId},
+    		#{studentPhoneNum},
+    		#{studentAdress},
+    		#{politicalStatus}
+    	)
+    </insert>
+    
+    <update id="updateStudentExtendInfo" parameterType="com.google.entity.dto.StudentExtendInfoDTO">
+    	update student_extend_info 
+    	set
+	    	AVERAGE_POINT = #{averagePoint},
+	    	GRADUATION_DATE = #{graduationDate},
+	    	GRADUATION_NO = #{graduationNo}
+    	where ID = #{id}
+    </update>
+    
+    <select id="findStudentAllInfoById" resultMap="studentAllInfoVo">
+    	select 
+    		*,
+    		rapr.ID AS rId,
+          	cvr.ID AS cId
+    	from student_info si 
+    	left join rewards_and_punishments_records rapr on si.ID = rapr.STUDENT_ID
+    	left join comprehensive_evaluation_results cvr on si.ID = cvr.STUDENT_ID
+    	where si.ID = #{id}
     </select>
 </mapper>

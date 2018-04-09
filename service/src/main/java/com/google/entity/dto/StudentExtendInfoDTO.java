@@ -6,6 +6,7 @@ import com.google.base.entity.BaseDto;
 
 public class StudentExtendInfoDTO extends BaseDto {
 	private long id;
+	private long studentId;
 	private String studentPhoneNum;
 	private String studentAdress;
 	private String politicalStatus;
@@ -13,12 +14,23 @@ public class StudentExtendInfoDTO extends BaseDto {
 	private Date graduationDate;
 	private String graduationNo;
 
+	private String studentNo;
+	private String studentRealName;
+	
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(long studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getStudentPhoneNum() {
@@ -68,4 +80,22 @@ public class StudentExtendInfoDTO extends BaseDto {
 	public void setGraduationNo(String graduationNo) {
 		this.graduationNo = graduationNo;
 	}
+
+	public String getStudentNo() {
+		return studentNo;
+	}
+
+	public void setStudentNo(String studentNo) {
+		this.studentNo = studentNo;
+	}
+
+	public String getStudentRealName() {
+		return studentRealName;
+	}
+
+	public void setStudentRealName(String studentRealName) {
+		this.studentRealName = studentRealName;
+	}
+	
+	
 }

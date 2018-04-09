@@ -1,6 +1,7 @@
 package com.google.entity.vo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by zengxiangyuan on 2018/2/6.
@@ -21,6 +22,9 @@ public class StudentInfoVO {
 
     private String internshipReportPath;
 
+    private List<RewardsAndPunishmentsRecordVO> raprList;
+	private List<ComprehensiveEvaluationResultVO> cerList;
+    
     public long getId() {
         return id;
     }
@@ -116,4 +120,20 @@ public class StudentInfoVO {
     public void setInternshipReportPath(String internshipReportPath) {
         this.internshipReportPath = internshipReportPath;
     }
+
+	public List<RewardsAndPunishmentsRecordVO> getRaprList() {
+		return raprList;
+	}
+
+	public void setRaprList(List<RewardsAndPunishmentsRecordVO> raprList) {
+		this.raprList = raprList;
+	}
+
+	public List<ComprehensiveEvaluationResultVO> getCerList() {
+		return cerList;
+	}
+
+	public void setCerList(List<ComprehensiveEvaluationResultVO> cerList) {
+		this.cerList = cerList;
+	}
 }
