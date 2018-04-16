@@ -91,7 +91,7 @@ export const constantRouterMap = [
         path: 'index',
         name: 'dossier  ',
         component: () => import('@/views/dossier/index'),
-      meta: { title: '档案管理', icon: 'table', role: [1] }
+      meta: { title: '档案管理', icon: 'table', role: [1, 2] }
     }]
   },
   {

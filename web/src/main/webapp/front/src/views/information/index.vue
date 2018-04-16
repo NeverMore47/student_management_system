@@ -9,6 +9,7 @@
         :show-file-list="false">
         <el-button size="small" type="primary" >上传实习报告</el-button>
     </el-upload>
+    <el-button type="primary" @click="dialogFormVisible = true">录入档案信息</el-button>
     <el-tabs style='margin-top:15px;' v-model="activeName" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :label="item.label" :key='item.key' :name="item.key">
         <template v-if="activeName == item.key &&  item.key == 'in'">
@@ -50,11 +51,28 @@
         </template>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog title="录入档案信息" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
+        <el-form-item label="家庭住址">
+          <el-input v-model="temp.studentAdress" aria-disabled=""></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式">
+          <el-input v-model="temp.studentPhoneNum" aria-disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="政治面貌">
+          <el-input v-model="temp.politicalStatus" aria-disabled="true"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button type="primary" @click="updateData">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { findStudentInfoDetail } from '@/api/student'
+import { findStudentInfoDetail, saveStudentExtendInfo } from '@/api/student'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'tab',
@@ -68,7 +86,14 @@ export default {
       form: {},
       grade: {},
       fileList3:[],
-      action: ''
+      action: '',
+      dialogFormVisible: false,
+      temp: {
+        studentId: '',
+        studentAdress: '',
+        studentPhoneNum: '',
+        politicalStatus: ''
+      }
     }
   },
     filters: {
@@ -114,7 +139,6 @@ export default {
             userId: getToken()
         }
         findStudentInfoDetail(tempData).then(response => {
-            console.log(tempData)
             this.form = Object.assign({}, response.data.studentInfo)
             this.grade = Object.assign({}, response.data.resultInfo)
             this.action = '/studentInfo/uploadFile?studentId=' + response.data.studentInfo.id + '&studentNo=' + response.data.studentInfo.studentNo
@@ -125,6 +149,28 @@ export default {
     },
     handleChange(file, fileList) {
 
+    },
+    updateData() {
+        this.temp.studentId = getToken()
+        saveStudentExtendInfo(this.temp).then(response => {
+            if(response.success) {
+                this.$notify({
+                    title: '成功',
+                    message: '录入成功',
+                    type: 'success',
+                    duration: 2000
+                })
+                this.fetchData()
+            } else {
+                 this.$notify({
+                    title: '录入失败',
+                    message: response.message,
+                    type: 'error',
+                    duration: 2000
+                })
+            }
+            this.dialogFormVisible = false
+        })
     },
     handleSuccess(response, file, fileList) {
         if(response.success) {

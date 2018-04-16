@@ -104,3 +104,11 @@ export function findStudentAllInfoById(params) {
   })
 }
 
+export function saveStudentExtendInfo(params) {
+  return request({
+   url: '/studentExtendInfo/saveStudentExtendInfo',
+   method: 'get',
+   params 
+  })
+}
+
