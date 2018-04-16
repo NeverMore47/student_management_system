@@ -3,6 +3,7 @@ package com.google.entity.dto;
 import java.util.Date;
 
 import com.google.base.entity.BaseDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class StudentExtendInfoDTO extends BaseDto {
 	private long id;
@@ -11,6 +12,7 @@ public class StudentExtendInfoDTO extends BaseDto {
 	private String studentAdress;
 	private String politicalStatus;
 	private double averagePoint;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date graduationDate;
 	private String graduationNo;
 

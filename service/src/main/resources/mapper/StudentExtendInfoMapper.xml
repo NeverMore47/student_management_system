@@ -7,7 +7,7 @@
 		<result column="STUDENT_ID" property="studentId"/>
         <result column="STUDENT_PHONE_NUM" property="studentPhoneNum"/>
         <result column="STUDENT_ADRESS" property="studentAdress"/>
-        <result column="POLITICAL_STATUS" property="studentAdress"/>
+        <result column="POLITICAL_STATUS" property="politicalStatus"/>
         <result column="AVERAGE_POINT" property="averagePoint"/>
         <result column="GRADUATION_DATE" property="graduationDate"/>
         <result column="GRADUATION_NO" property="graduationNo"/>

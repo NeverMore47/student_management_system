@@ -34,6 +34,10 @@ module.exports = {
       '/rewardAndPun': {
         target: 'http://localhost:8080',
         changeOrigin: true
+      },
+      '/studentExtendInfo': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
       }
     },
 
