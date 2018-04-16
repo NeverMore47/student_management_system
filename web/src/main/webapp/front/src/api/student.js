@@ -79,3 +79,28 @@ export function findStudentInfoDetail(params) {
     params
   })
 }
+
+export function findStudentExtendInfoList(params) {
+  return request({
+    url: '/studentExtendInfo/findStudentExtendInfoList',
+    method: 'get',
+    params
+  })
+}
+
+export function updateStudentExtendInfo(params) {
+  return request({
+    url: '/studentExtendInfo/updateStudentExtendInfo',
+    method: 'get',
+    params
+  })
+}
+
+export function findStudentAllInfoById(params) {
+  return request({
+    url: '/studentExtendInfo/findStudentAllInfoById',
+    method: 'get',
+    params
+  })
+}
+

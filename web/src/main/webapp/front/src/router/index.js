@@ -84,6 +84,17 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/dossier',
+      component: Layout,
+      children: [
+      {
+        path: 'index',
+        name: 'dossier  ',
+        component: () => import('@/views/dossier/index'),
+      meta: { title: '档案管理', icon: 'table', role: [1] }
+    }]
+  },
+  {
     path: '/chat',
     component: Layout,
     children: [
